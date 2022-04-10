@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: processos
+    build: .
+    command: npm run serve
+    ports:
+      - "3333:3333"
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    # env_file:
+    #   - .env
