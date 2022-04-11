@@ -78,6 +78,7 @@ export const tjgo = async (req, res) => {
                 })
                 .then((data) => {
                   processList.push(data);
+                  // FIXME: Remover isso depois
                   console.log("Processos: ", processList.length);
                 })
                 .catch(() => console.log("Erro ao processar"));

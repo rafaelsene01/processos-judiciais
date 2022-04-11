@@ -32,26 +32,13 @@ export async function workerPaginacao({
     $("#tabListaProcesso tr.TabelaLinha2").each((_, el) => {
       const onclick = el.attribs.onclick;
       if (onclick) {
-        const [attrs, attrs2] = onclick.split(":");
         let id = "";
-        const id_match = attrs.match(/(\d+)/);
+        const id_match = onclick.match(/(\d+)/);
         if (id_match && id_match.length) {
           id = id_match[0];
         }
-        let page = 0;
-        const page_match = attrs2.match(/(\d+)/);
-        if (page_match && page_match.length) {
-          page = Number(page_match[0]);
-        }
 
-        const code = $(el).find("td").first().text().trim();
-
-        if (/false/.test(onclick)) {
-          const message = $(`#segredojus${id}`).text().trim();
-          processList.push({ id, message });
-        } else {
-          processList.push({ id, code, page });
-        }
+        processList.push({ id, page: page });
       }
     });
     return processList;
@@ -63,7 +50,6 @@ export async function workerPaginacao({
 export async function workerProcessos({
   site,
   id,
-  code,
   page,
   recaptcha,
   cookie,
@@ -86,14 +72,60 @@ export async function workerProcessos({
       params,
     });
 
-    let response: any = { Code_Processo: code, Id_Processo: id };
+    let response: any = { Id_Processo: id };
 
     const $ = await cheerio.load(html, null, false);
-    $("#span_proc_numero").each((_, el) => {
-      response = { ...response, span_proc_numero: $(el).text().trim() };
-    });
+
+    const alerta = $(".area h2").text().trim();
+    if (alerta && /Segredo/.test(alerta)) {
+      response = { ...response, restricted: true };
+
+      const numero = $("#divEditar div span:nth-of-type(1)").text();
+      const area = $("#divEditar div span:nth-of-type(2)").text();
+
+      if (numero) {
+        response = { ...response, numero };
+      }
+      if (numero) {
+        response = { ...response, area };
+      }
+
+      const serventiaKey = $(
+        "#VisualizaDados:nth-of-type(3) div:nth-of-type(1)"
+      ).text();
+      const serventia = $(
+        "#VisualizaDados:nth-of-type(3) div:nth-of-type(1)"
+      ).text();
+      if (/Serventia/i.test(serventiaKey) && serventia) {
+        response = {
+          ...response,
+          serventia,
+        };
+      }
+
+      const magistradoKey = $(
+        "#VisualizaDados:nth-of-type(3) div:nth-of-type(2)"
+      ).text();
+      const magistrado = $(
+        "#VisualizaDados:nth-of-type(3) span:nth-of-type(2)"
+      ).text();
+      if (/Magistrado/i.test(magistradoKey) && magistrado) {
+        response = {
+          ...response,
+          magistrado,
+        };
+      }
+      return response;
+    }
+
+    const numero = $("span#span_proc_numero").text().trim();
+    if (numero) {
+      // FIXME: Temos um problema que em numero vem como "0000000-00.0000.8.09.0000" em alguns processos
+      response = { ...response, numero, page };
+    }
+
     return response;
   } catch (_) {
-    return { Code_Processo: code, Id_Processo: id };
+    return { Id_Processo: id };
   }
 }

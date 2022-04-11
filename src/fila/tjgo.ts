@@ -4,7 +4,6 @@ import { workerProcessos, workerPaginacao } from "@/processo";
 export type QueueTaskProcessos = {
   site: string;
   id: string;
-  code: string;
   page: number;
   recaptcha: string;
   cookie: any;
