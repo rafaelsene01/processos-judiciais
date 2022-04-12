@@ -1,5 +1,6 @@
 import fastq, { queueAsPromised } from "fastq";
-import { workerProcessos, workerPaginacao } from "@/processo";
+import { workerProcessos } from "@/lawsuit";
+import { workerPaginacao } from "@/pagination";
 
 export type QueueTaskProcessos = {
   site: string;

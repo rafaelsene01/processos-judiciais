@@ -1,7 +1,7 @@
 import "./util/module-alias";
 import "dotenv/config";
 import express from "express";
-import { tjgo } from "@/paginacao";
+import { tjgo } from "@/service";
 
 const app = express();
 

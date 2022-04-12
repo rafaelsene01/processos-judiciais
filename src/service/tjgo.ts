@@ -1,9 +1,7 @@
 import * as cheerio from "cheerio";
-import { queueProcessos, queuePaginacao } from "@/fila";
+import { queueProcessos, queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
 import axios from "axios";
-
-const delay = (time) => new Promise((res) => setTimeout(res, time));
 
 const site = process.env.tjgo_site as string;
 
