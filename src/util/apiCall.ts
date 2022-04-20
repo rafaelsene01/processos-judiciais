@@ -3,13 +3,14 @@ import { TextDecoder } from "util";
 
 export const Fetch = async (url: string, request: RequestInit, params?) => {
   try {
-    const newUrl = new URL(url);
-    Object.keys(params).forEach((key) =>
-      newUrl.searchParams.append(key, params[key])
-    );
-
     const response = params
-      ? await fetch(newUrl, request)
+      ? await fetch(
+          Object.keys(params).reduce((newUrl, i) => {
+            newUrl.searchParams.append(i, params[i]);
+            return newUrl;
+          }, new URL(url)),
+          request
+        )
       : await fetch(url, request);
 
     let headers = {};
