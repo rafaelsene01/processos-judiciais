@@ -1,6 +1,6 @@
-import axios from "axios";
+import { Fetch } from "@/util";
 import * as cheerio from "cheerio";
-import { QueueTaskPaginacao } from "@/fila";
+import { QueueTaskPaginacao } from "@/queues";
 
 export async function workerPaginacao({
   site,
@@ -18,12 +18,16 @@ export async function workerPaginacao({
       "g-recaptcha-response": recaptcha,
     };
 
-    const { data: html } = await axios.get(site, {
-      headers: {
-        Cookie: cookie,
+    const { data: html } = await Fetch(
+      site,
+      {
+        method: "GET",
+        headers: {
+          Cookie: cookie,
+        },
       },
-      params,
-    });
+      params
+    );
 
     const processList: any = [];
 

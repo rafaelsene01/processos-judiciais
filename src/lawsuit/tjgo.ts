@@ -1,4 +1,4 @@
-import axios from "axios";
+import { Fetch } from "@/util";
 import * as cheerio from "cheerio";
 import { QueueTaskProcessos } from "@/queues";
 
@@ -20,12 +20,16 @@ export async function workerProcessos({
       PosicaoPagina: page + 1,
       "g-recaptcha-response": recaptcha,
     };
-    const { data: html } = await axios.post(site, null, {
-      headers: {
-        Cookie: cookie,
+    const { data: html } = await Fetch(
+      site,
+      {
+        method: "POST",
+        headers: {
+          Cookie: cookie,
+        },
       },
-      params,
-    });
+      params
+    );
 
     let response: any = { Id_Processo: id };
 

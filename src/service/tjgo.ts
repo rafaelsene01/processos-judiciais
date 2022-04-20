@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import { queueProcessos, queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
-import axios from "axios";
+import { Fetch } from "@/util";
 
 const site = process.env.tjgo_site as string;
 
@@ -22,9 +22,13 @@ export const tjgo = async (req, res) => {
       "g-recaptcha-response": recaptcha,
     };
 
-    const { data: html, headers } = await axios.post(site, null, {
-      params,
-    });
+    const { data: html, headers } = await Fetch(
+      site,
+      {
+        method: "POST",
+      },
+      params
+    );
 
     // TODO: NÃO FOI ENCONTRADO ITEMS
     {
@@ -52,35 +56,29 @@ export const tjgo = async (req, res) => {
 
     const processList: any = [];
 
-    const cookie: any = headers["set-cookie"];
-
     for (let i = pageNumber; i <= lastPageNumber; i++) {
       queuePaginacao
         .push({
           site,
           recaptcha,
           page: i,
-          cookie,
+          cookie: headers["set-cookie"],
         })
         .then((data) => {
           data.forEach((item) => {
-            if (item.message) {
-              processList.push(item);
-            } else {
-              queueProcessos
-                .push({
-                  ...item,
-                  site: process.env.tjgo_site as string,
-                  cookie,
-                  recaptcha,
-                })
-                .then((data) => {
-                  processList.push(data);
-                  // FIXME: Remover isso depois
-                  console.log("Processos: ", processList.length);
-                })
-                .catch(() => console.log("Erro ao processar"));
-            }
+            queueProcessos
+              .push({
+                ...item,
+                site: process.env.tjgo_site as string,
+                cookie: headers["set-cookie"],
+                recaptcha,
+              })
+              .then((data) => {
+                processList.push(data);
+                // FIXME: Remover isso depois
+                console.log("Processos: ", processList.length);
+              })
+              .catch(() => console.log("Erro ao processar"));
           });
         });
     }
