@@ -1,5 +1,7 @@
 import { Fetch } from "@/util";
 import * as cheerio from "cheerio";
+import xpath from "xpath";
+import { DOMParser } from "xmldom";
 import { QueueTaskProcessos } from "@/queues";
 
 export async function workerProcessos({
@@ -77,9 +79,9 @@ export async function workerProcessos({
       return response;
     }
 
-    const numero = $("span#span_proc_numero").text().trim();
+    const doc = new DOMParser({ errorHandler: {} }).parseFromString(html);
+    const numero = xpath.select('string(//span[@id="span_proc_numero"])', doc);
     if (numero) {
-      // FIXME: Temos um problema que em numero vem como "0000000-00.0000.8.09.0000" em alguns processos
       response = { ...response, numero, page };
     }
 
