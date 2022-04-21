@@ -1,5 +1,5 @@
 import fastq, { queueAsPromised } from "fastq";
-import { workerProcessos } from "@/lawsuit";
+import { workerTJGO } from "@/lawsuit";
 import { workerPaginacao } from "@/pagination";
 
 export type QueueTaskProcessos = {
@@ -23,4 +23,4 @@ export const queuePaginacao: queueAsPromised<QueueTaskPaginacao> =
   fastq.promise(workerPaginacao, CONCURRENCY);
 
 export const queueProcessos: queueAsPromised<QueueTaskProcessos> =
-  fastq.promise(workerProcessos, CONCURRENCY);
+  fastq.promise(workerTJGO, CONCURRENCY);
