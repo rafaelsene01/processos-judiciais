@@ -1,7 +1,6 @@
-import * as cheerio from "cheerio";
 import { queueProcessos, queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
-import { Fetch } from "@/util";
+import { Fetch, $ } from "@/util";
 
 const site = process.env.tjgo_site as string;
 
@@ -32,8 +31,7 @@ export const tjgo = async (req, res) => {
 
     // TODO: NÃO FOI ENCONTRADO ITEMS
     {
-      const $ = await cheerio.load(html, null, false);
-      if (!$("#Paginacao").length) {
+      if (!$('//*[@id="Paginacao"]', html)) {
         res.status(200).send({
           message:
             "Nenhum Processo foi localizado para os parâmetros informados.",
@@ -46,13 +44,12 @@ export const tjgo = async (req, res) => {
     // TODO: PAGINAÇÃO
     const pageNumber = 0;
     let lastPageNumber = 0;
-    const $ = await cheerio.load(html, null, false);
-    $("#Paginacao a").each((_, el) => {
-      const attrs = el.attribs.onclick;
-      if (attrs) {
-        lastPageNumber = Number(attrs.replace(/(buscaPublica)|[()]/g, ""));
-      }
-    });
+    const nodes = $('//*[@id="Paginacao"]/a/@onclick', html);
+    console.log(nodes.length);
+    const attrs = nodes[nodes.length - 1]?.value;
+    if (attrs) {
+      lastPageNumber = Number(attrs.replace(/(buscaPublica)|[()]/g, ""));
+    }
 
     const processList: any = [];
 
