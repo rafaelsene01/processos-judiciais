@@ -1,5 +1,4 @@
-import { Fetch } from "@/util";
-import * as cheerio from "cheerio";
+import { Fetch, $ } from "@/util";
 import { QueueTaskPaginacao } from "@/queues";
 
 export async function workerPaginacao({
@@ -31,20 +30,17 @@ export async function workerPaginacao({
 
     const processList: any = [];
 
-    const $ = await cheerio.load(html, null, false);
-
-    $("#tabListaProcesso tr.TabelaLinha2").each((_, el) => {
-      const onclick = el.attribs.onclick;
-      if (onclick) {
-        let id = "";
-        const id_match = onclick.match(/(\d+)/);
+    const nodes = $('//*[@id="tabListaProcesso"]/tr/@onclick', html);
+    for (let i = 0; i < nodes.length; i++) {
+      const attrs = nodes[i]?.value;
+      if (attrs) {
+        const id_match = attrs.match(/(\d+)/);
         if (id_match && id_match.length) {
-          id = id_match[0];
+          processList.push({ id: id_match[0], page: page });
         }
-
-        processList.push({ id, page: page });
       }
-    });
+    }
+
     return processList;
   } catch (_) {
     return [];
