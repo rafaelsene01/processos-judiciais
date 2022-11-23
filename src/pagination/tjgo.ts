@@ -30,7 +30,7 @@ export async function workerPaginacao({
 
     const processList: any = [];
 
-    const nodes = $('//*[@id="tabListaProcesso"]/tr/@onclick', html);
+    const nodes = $.xpath('//*[@id="tabListaProcesso"]/tr/@onclick', html);
     for (let i = 0; i < nodes.length; i++) {
       const attrs = nodes[i]?.value;
       if (attrs) {

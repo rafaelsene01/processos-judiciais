@@ -89,14 +89,14 @@ export const getProcessTJGO = async (html) => {
   }
 
   const numero = (
-    $('string(//span[@id="span_proc_numero"])', html) as string
+    $.text('//span[@id="span_proc_numero"]', html) as string
   ).trim();
   const area = (
-    $('string(//*[@id="VisualizaDados"]/div[2]/span[2])', html) as string
+    $.text('//*[@id="VisualizaDados"]/div[2]/span[2]', html) as string
   ).trim();
   const ativo: string[] = [];
   (
-    $(
+    $.xpath(
       '//*[@id="VisualizaDados"]/fieldset/span[1][contains(@class, "nomes")]',
       html
     ) as SelectedValue[]
@@ -106,7 +106,7 @@ export const getProcessTJGO = async (html) => {
   });
   const passivo: string[] = [];
   (
-    $(
+    $.xpath(
       '//*[@id="VisualizaDados"]/fieldset/span/span[contains(@class, "nomes")]',
       html
     ) as SelectedValue[]
@@ -116,29 +116,29 @@ export const getProcessTJGO = async (html) => {
   });
 
   const valorCausa = (
-    $('string(//*[@id="VisualizaDados"]/span[4])', html) as string
+    $.text('//*[@id="VisualizaDados"]/span[4]', html) as string
   ).trim();
   const valorCondenacao = (
-    $('string(//*[@id="VisualizaDados"]/span[5])', html) as string
+    $.text('//*[@id="VisualizaDados"]/span[5]', html) as string
   ).trim();
   const assunto = (
-    $(
-      'string(//*[@id="VisualizaDados"]/span[3]/table/tbody/tr/td)',
+    $.text(
+      '//*[@id="VisualizaDados"]/span[3]/table/tbody/tr/td',
       html
     ) as string
   ).trim();
 
   const movimantecoes: any[] = [];
   (
-    $(
+    $.xpath(
       '//*[@id="tabListaProcesso"]/tr[contains(@class, "TabelaLinha")]',
       html
     ) as SelectedValue[]
   ).forEach((element: any) => {
-    const td: any = $("//td", element.toString());
-    const span: any = $("//span", td.toString());
+    const td: any = $.xpath("//td", element.toString());
+    const span: any = $.xpath("//span", td.toString());
     const numero = td[0].firstChild?.data?.trim();
-    const text = $("//text()[2]", td[1].toString()).toString().trim();
+    const text = $.xpath("//text()[2]", td[1].toString()).toString().trim();
     const movimentacao = span[0].firstChild?.data?.trim();
     const data = td[2].firstChild?.data?.trim();
     const usuario = td[3].firstChild?.data?.trim();

@@ -1,12 +1,53 @@
 import { queueProcessos, queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
 import { Fetch, $ } from "@/util";
+import axios from "axios";
 
 const site = process.env.tjgo_site as string;
+const processList: any = [];
+
+const _paginacao = async (page, recaptcha, cookie?) => {
+  try {
+    const data = await queuePaginacao.push({
+      site,
+      recaptcha,
+      page,
+      cookie,
+    });
+
+    data.forEach((item) => {
+      _processos(item, recaptcha, cookie);
+    });
+  } catch (error) {
+    console.log("Erro na listagem");
+  }
+};
+const _processos = async (item, recaptcha, cookie?) => {
+  try {
+    const data = await queueProcessos.push({
+      ...item,
+      site: process.env.tjgo_site as string,
+      cookie,
+      recaptcha,
+    });
+
+    processList.push(data);
+
+    // FIXME: Remover isso depois
+    console.log("Processos: ", processList.length);
+  } catch (error) {
+    console.log("Erro ao processar");
+  }
+};
 
 export const tjgo = async (req, res) => {
   try {
-    const recaptcha = await anticaptcha(site, process.env.tjgo_key as string);
+    // const recaptcha = await anticaptcha(site, process.env.tjgo_key as string);
+    const { data } = await axios.post("http://localhost:3333/recaptcha", {
+      version: 3,
+      site_key: "",
+    });
+    const recaptcha = data.token.trim();
 
     const params = {
       PaginaAtual: "2",
@@ -28,10 +69,9 @@ export const tjgo = async (req, res) => {
       },
       params
     );
-
     // TODO: NÃO FOI ENCONTRADO ITEMS
     {
-      if (!$('//*[@id="Paginacao"]', html)) {
+      if (!$.xpath('//*[@id="Paginacao"]', html)) {
         res.status(200).send({
           message:
             "Nenhum Processo foi localizado para os parâmetros informados.",
@@ -44,40 +84,14 @@ export const tjgo = async (req, res) => {
     // TODO: PAGINAÇÃO
     const pageNumber = 0;
     let lastPageNumber = 0;
-    const nodes = $('//*[@id="Paginacao"]/a/@onclick', html);
-    console.log(nodes.length);
+    const nodes = $.xpath('//*[@id="Paginacao"]/a/@onclick', html);
     const attrs = nodes[nodes.length - 1]?.value;
     if (attrs) {
       lastPageNumber = Number(attrs.replace(/(buscaPublica)|[()]/g, ""));
     }
 
-    const processList: any = [];
-
     for (let i = pageNumber; i <= lastPageNumber; i++) {
-      queuePaginacao
-        .push({
-          site,
-          recaptcha,
-          page: i,
-          cookie: headers["set-cookie"],
-        })
-        .then((data) => {
-          data.forEach((item) => {
-            queueProcessos
-              .push({
-                ...item,
-                site: process.env.tjgo_site as string,
-                cookie: headers["set-cookie"],
-                recaptcha,
-              })
-              .then((data) => {
-                processList.push(data);
-                // FIXME: Remover isso depois
-                console.log("Processos: ", processList.length);
-              })
-              .catch(() => console.log("Erro ao processar"));
-          });
-        });
+      _paginacao(i, recaptcha, headers["set-cookie"]);
     }
     // TODO: FIM, PAGINAÇÃO
 

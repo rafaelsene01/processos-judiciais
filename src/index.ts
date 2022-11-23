@@ -24,6 +24,22 @@ app.get("/", (_, res) => {
 
 app.get("/:id", tjgo);
 
+// import fs from "fs";
+// import path from "path";
+// import { getProcessTJGO } from "@/lawsuit";
+// import { $ } from "@/util";
+// const html = fs.readFileSync(
+//   path.resolve(__dirname, "html/tjgo/list.html"),
+//   "utf8"
+// );
+
+// app.get("/:id", async (_, res) => {
+//   const nodes = $.findOne('//*[@id="divEditar"]/fieldset/legend', html);
+//   // const response = await getProcessTJGO(html);
+//   console.log(nodes);
+//   res.send(nodes.text);
+// });
+
 const normalizaPort = (val) => {
   const port = parseInt(val, 10);
   if (isNaN(port)) {
@@ -35,7 +51,7 @@ const normalizaPort = (val) => {
   return false;
 };
 
-const port = normalizaPort(process.env.PORT || "3333");
+const port = normalizaPort(process.env.PORT || "3334");
 
 app.listen(port, () => {
   console.log(`app listening on http://localhost:${port}/`);
