@@ -1,7 +1,8 @@
 import { queueProcessos, queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
-import { Fetch, $ } from "@/util";
+import { Fetch } from "@/util";
 import axios from "axios";
+import { load } from "cheerio";
 
 const site = process.env.tjgo_site as string;
 const processList: any = [];
@@ -69,9 +70,11 @@ export const tjgo = async (req, res) => {
       },
       params
     );
+    const $ = load(html || "");
+
     // TODO: NÃO FOI ENCONTRADO ITEMS
     {
-      if (!$.xpath('//*[@id="Paginacao"]', html)) {
+      if (!$("#Paginacao").length) {
         res.status(200).send({
           message:
             "Nenhum Processo foi localizado para os parâmetros informados.",
@@ -84,11 +87,15 @@ export const tjgo = async (req, res) => {
     // TODO: PAGINAÇÃO
     const pageNumber = 0;
     let lastPageNumber = 0;
-    const nodes = $.xpath('//*[@id="Paginacao"]/a/@onclick', html);
-    const attrs = nodes[nodes.length - 1]?.value;
-    if (attrs) {
-      lastPageNumber = Number(attrs.replace(/(buscaPublica)|[()]/g, ""));
-    }
+    $("#Paginacao")
+      .find("a")
+      .toArray()
+      .map((element) => {
+        const onclick = $(element).attr("onclick");
+        if (onclick) {
+          lastPageNumber = Number(onclick.replace(/(buscaPublica)|[()]/g, ""));
+        }
+      });
 
     for (let i = pageNumber; i <= lastPageNumber; i++) {
       _paginacao(i, recaptcha, headers["set-cookie"]);

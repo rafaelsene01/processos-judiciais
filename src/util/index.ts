@@ -1,45 +1,54 @@
-import Xpath, { SelectedValue } from "xpath";
-import { DOMParser } from "xmldom";
 export * from "./apiCall";
-export * from "./helper";
+import { load } from "cheerio";
 
-type XpathType = {
-  html: string;
-  text: string;
+export const nextText = (text, tag, html) => {
+  const $ = load(html);
+  const element = $(tag)
+    .toArray()
+    .find((el) => $(el).text().trim() === text);
+  return $(element).next().text().trim();
 };
 
-class ParseXpath {
-  public xpath(xpath, html): SelectedValue[] {
-    const doc = new DOMParser({ errorHandler: {} }).parseFromString(html);
-    return Xpath.select(xpath, doc);
-  }
+export const findAllText = (text, tag, html) => {
+  const $ = load(html);
+  const values: string[] = [];
+  $(tag)
+    .toArray()
+    .forEach((element) => {
+      if ($(element).text().trim() === text)
+        values.push($(element).next().text().trim());
+    });
+  return values;
+};
 
-  public find(xpath, html): XpathType[] {
-    const doc = new DOMParser({ errorHandler: {} }).parseFromString(html);
-    const nodes = Xpath.select(xpath, doc);
-    const newNodes: XpathType[] = [];
-    for (let i = 0; i < nodes.length; i++) {
-      newNodes.push({
-        html: nodes[i].toString(),
-        text: nodes[i].firstChild?.data?.trim(),
-      });
-    }
-    return newNodes;
-  }
+export const findElementHTML = (selector, childTag, childText, html) => {
+  const $ = load(html);
+  const ElementHTML = $(selector)
+    .toArray()
+    .find((element) => {
+      const reg = RegExp(childText, "i");
+      return reg.test($(element).find(childTag)?.first()?.text());
+    });
 
-  public findOne(xpath, html): XpathType {
-    const doc = new DOMParser({ errorHandler: {} }).parseFromString(html);
-    const nodes = Xpath.select(xpath, doc);
-    return {
-      html: nodes[0].toString(),
-      text: nodes[0].firstChild?.data?.trim(),
-    };
-  }
+  return $(ElementHTML).html();
+};
 
-  public text(xpath, html): string {
-    const doc = new DOMParser({ errorHandler: {} }).parseFromString(html);
-    return Xpath.select(`string(${xpath})`, doc) as unknown as string;
-  }
-}
+export const getTable = (selector, keys, html) => {
+  const $ = load(html);
+  return $(selector)
+    .toArray()
+    .map((element) => {
+      const td = $(element)
+        .find("td")
+        .toArray()
+        .map((el) => $(el).text().trim());
+      return td.reduce(
+        (item, text, i) => (keys[i] ? { ...item, [keys[i]]: text } : item),
+        {}
+      );
+    });
+};
 
-export const $ = new ParseXpath();
+export const pole = (text, html) => {
+  return findElementHTML("fieldset.VisualizaDados", "legend", text, html);
+};

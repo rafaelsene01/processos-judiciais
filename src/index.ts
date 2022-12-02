@@ -29,7 +29,7 @@ app.get("/:id", tjgo);
 // import fs from "fs";
 // import path from "path";
 // import { getProcessTJGO } from "@/lawsuit";
-// import { $, nextText, findAllText, pole } from "@/util";
+// import { nextText, findAllText, pole } from "@/util";
 // import { load } from "cheerio";
 // const html = fs.readFileSync(
 //   path.resolve(__dirname, "html/tjgo/list.html"),
@@ -37,8 +37,14 @@ app.get("/:id", tjgo);
 // );
 
 // app.get("/:id", async (_, res) => {
-//   const $$ = load(html);
-//   const processList: any = [];
+//   const $ = load(html);
+
+//   if (!$("#Paginacao").length) {
+//     res.status(200).send({
+//       message: "Nenhum Processo foi localizado para os parâmetros informados.",
+//     });
+//     return;
+//   }
 
 //   res.send(html);
 // });

@@ -38,8 +38,6 @@
     "dotenv": "^16.0.0",
     "fastq": "^1.13.0",
     "module-alias": "^2.2.2",
-    "node-fetch": "^2.6.7",
-    "xmldom": "^0.6.0",
-    "xpath": "^0.0.32"
+    "node-fetch": "^2.6.7"
   }
 }
