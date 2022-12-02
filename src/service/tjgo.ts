@@ -35,7 +35,7 @@ const _processos = async (item, recaptcha, cookie?) => {
     processList.push(data);
 
     // FIXME: Remover isso depois
-    console.log("Processos: ", processList.length);
+    // console.log("Processos: ", processList.length);
   } catch (error) {
     console.log("Erro ao processar");
   }

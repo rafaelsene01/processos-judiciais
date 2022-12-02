@@ -36,6 +36,7 @@ export const workerTJGO = async ({
     // TODO: Esse page que passo n]ao e necessario para Objeto final
     return { Id_Processo: id, page: page + 1, ...response };
   } catch (_) {
+    console.log({ Id_Processo: id, page: page + 1 });
     return { Id_Processo: id, page: page + 1 };
   }
 };
@@ -88,6 +89,9 @@ export const getProcessTJGO = (html) => {
   }
 
   const numero = nextText("Número", "div", $$(".aEsquerda").html());
+  if (numero === "0000000-00.0000.8.09.0000") {
+    throw Error("Dados inconsistente");
+  }
   const area = nextText("Área", "div", $$(".aEsquerda").html());
 
   const ativo = findAllText("Nome", "div", pole("Polo Ativo", html));

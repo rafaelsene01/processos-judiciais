@@ -1,0 +1,1136 @@
+<html>
+  <head>
+    <title>Consulta Pública de Processos</title>
+
+    <meta content="text/html; charset=LATIN1" http-equiv="CONTENT-TYPE" />
+    <style type="text/css">
+      @import url("./css/Principal.css");
+      @import url("./css/Paginacao.css");
+      @import url("./css/menusimples.css");
+    </style>
+
+    <script
+      async=""
+      src="chrome-extension://fhamhppabjaafimidmelnmpfangjdnhj/analytics.js"
+    ></script>
+    <script
+      type="text/javascript"
+      async=""
+      src="https://www.gstatic.com/recaptcha/releases/Km9gKuG06He-isPsP6saG8cn/recaptcha__pt_br.js"
+      crossorigin="anonymous"
+      integrity="sha384-f3Rj1pMNd6cgweIqqnmEHO71vNiaVukqQIebxJT0NbQbbgtcSq1RhHJTdJ8u1Ns1"
+    ></script>
+    <script type="text/javascript" src="./js/Funcoes.js"></script>
+    <script type="text/javascript" src="./js/Digitacao/AutoTab.js"></script>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <style type="text/css">
+      #bkg_projudi {
+        display: none;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="css/cupertino/jquery-ui-1.8.1.custom.css"
+      type="text/css"
+      media="all"
+    />
+  </head>
+
+  <body class="fundo">
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var msn_servidor;
+        msn_servidor = window.location.origin;
+        if (msn_servidor != "https://projudi.tjgo.jus.br") {
+          $("#servidor").html(
+            "&nbsp;<i class='fa fa-quote-left'></i> Servidor de Homologação <i class='fa fa-quote-right'></i> "
+          );
+        }
+      });
+    </script>
+
+    <div id="Cabecalho" class="Cabecalho">
+      <div id="pgn_cabecalho" class="pgn_cabecalho">
+        <div
+          class="logoTJ"
+          id="img_logotj"
+          title="Versao 2.16.167[01/12|e5e8da812a|cp10:server-cp10-2]"
+        >
+          <h1>Processo Judicial</h1>
+          <div id="servidor"></div>
+        </div>
+        <div style="float: right">
+          <div id="cssmenu">
+            <ul>
+              <li class="has-sub">
+                <a href="#" title="Consulta"
+                  ><span><i class="fa fa-search"></i></span
+                ></a>
+                <ul>
+                  <li>
+                    <a
+                      href="./BuscaProcessoPublica?PaginaAtual=4"
+                      title="Consultar Processos de 1º e 2º grau"
+                    >
+                      Pública processual &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="./ConsultaPublicacao" title="Consultar Publicações"
+                      >Publicações &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./ConsultaJurisprudencia"
+                      title="Consultar Jurisprudências"
+                      >Jurisprudências &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./BuscaProcessoPublica?PaginaAtual=9&amp;tipoConsultaProcesso=1"
+                      title="Consultar Processos por Advogado"
+                    >
+                      Processo por Advogado &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./BuscaProcessoCodigoAcesso?PaginaAtual=4"
+                      title="Consultar Processos por Código de Acesso"
+                    >
+                      Processo por Código &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="ListaJuizados"
+                      title="Lista das Serventias com Processo Judicial implantado"
+                    >
+                      Serventias Implantadas &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="/RelatorioInterrupcoes?PaginaAtual=4"
+                      &sistema="1"
+                      title="Relatório de Interrupções"
+                    >
+                      Relatório de Interrupções &nbsp;<i
+                        class="fa fa-search"
+                      ></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./PendenciaPublica"
+                      title="Validação de Documentos"
+                    >
+                      Validação de Documentos &nbsp;<i class="fa fa-search"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./PendenciaPublica?PaginaAtual=2"
+                      title="Intimações do Dia Anterior"
+                      >Intimações do Dia Anterior&nbsp;<i
+                        class="fa fa-search"
+                      ></i
+                    ></a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-sub">
+                <a href="#" title="Emitir e Validar Certidões Nada Consta"
+                  ><span><i class="fa fa-file-text"></i></span
+                ></a>
+                <ul>
+                  <li class="has-sub">
+                    <a href="#" title="Certidões de 1º Grau"
+                      ><span>
+                        Certidões - 1º Grau &nbsp;<i
+                          class="fa fa-file-text"
+                        ></i></span
+                    ></a>
+                    <ul>
+                      <li>
+                        <a
+                          href="./CertidaoNegativaPositivaPublica?PaginaAtual=1&amp;TipoArea=1&amp;InteressePessoal=&amp;Territorio=&amp;Finalidade="
+                          title="Emissão de Certidões Pessoa Física - Cível"
+                        >
+                          Pessoa Física - Cível &nbsp;<i
+                            class="fa fa-file-text"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="./CertidaoNegativaPositivaPublica?PaginaAtual=1&amp;TipoArea=2&amp;InteressePessoal=S"
+                          title="Emissão de Certidões Pessoa Física - Criminal"
+                        >
+                          Pessoa Física - Criminal &nbsp;<i
+                            class="fa fa-file-text"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="./CertidaoNegativaPositivaPublicaPJ?PaginaAtual=1&amp;TipoArea="
+                          title="Emissão de Certidões Pessoa Jurídica"
+                        >
+                          Pessoa Jurídica &nbsp;<i class="fa fa-file-text"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="./CertidaoNarrativaComCustasPublica?PaginaAtual=9"
+                          title="Certidão Narrativa com Custas"
+                        >
+                          Certidão Narrativa com Custas &nbsp;<i
+                            class="fa fa-usd"
+                          ></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="has-sub">
+                    <a href="#" title="Certidões de 2º Grau"
+                      ><span>
+                        Certidões - 2º Grau &nbsp;<i
+                          class="fa fa-file-text"
+                        ></i></span
+                    ></a>
+                    <ul>
+                      <li>
+                        <a
+                          href="./CertidaoSegundoGrauNegativaPositivaPublica?PaginaAtual=1"
+                          title="Emissão de Certidões Pessoa Física"
+                          >Pessoa Física &nbsp;<i class="fa fa-file-text"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="./CertidaoSegundoGrauNegativaPositivaPublicaPJ?PaginaAtual=1"
+                          title="Emissão de Certidões Pessoa Jurídica"
+                          >Pessoa Jurídica &nbsp;<i class="fa fa-file-text"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="./CertidaoPublica" title="Validar Certidões">
+                      Validação de Certidões &nbsp;<i
+                        class="fa fa-file-text"
+                      ></i
+                    ></a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-sub">
+                <a href="#" title="Emitir Guias"
+                  ><span><i class="fa fa-usd"></i></span
+                ></a>
+                <ul>
+                  <li>
+                    <a href="./GerarBoleto?PaginaAtual=4" title="Gerar Boleto"
+                      >Gerar Boleto &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaLocomocaoPublica?PaginaAtual=9"
+                      title="Guia Locomoção"
+                    >
+                      Guia Locomoção &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaLocomocaoComplementarPublica?PaginaAtual=9"
+                      title="Guia Locomoção Complementar"
+                    >
+                      Guia Locomoção Complementar &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaInicial1GrauPublica?PaginaAtual=4"
+                      title="Guia Inicial para o 1º e 2º Grau"
+                    >
+                      Guia Inicial 1º e 2º Grau &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaInicialComplementarPublica?PaginaAtual=4"
+                      title="Guia Complementar da Inicial"
+                    >
+                      Guia Complementar da Inicial &nbsp;<i
+                        class="fa fa-usd"
+                      ></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaPostagemPublica?PaginaAtual=9"
+                      title="Guia Postagem"
+                    >
+                      Guia Postagem &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaRecursoInominadoPublica?PaginaAtual=9"
+                      title="Guia Recurso Inominado"
+                    >
+                      Guia Recurso Inominado &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaCertidaoPraticaForensePublica?PaginaAtual=9"
+                      title="Guia de Certidão de Prática Forense"
+                    >
+                      Guia de Certidão de Prática Forense &nbsp;<i
+                        class="fa fa-usd"
+                      ></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./GuiaCertidaoNarrativaPublica?PaginaAtual=9"
+                      title="Guia de Certidão Narrativa"
+                    >
+                      Guia de Certidão Narrativa &nbsp;<i class="fa fa-usd"></i
+                    ></a>
+                  </li>
+
+                  <!-- 		<li><a href="./GuiaMediacaoPublica?PaginaAtual=9" title="Guia Media&ccedil;ão"> Guia Media&ccedil;&atilde;o - 1º Grau &nbsp;<i class="fa fa-usd"></i></a></li> -->
+                  <!-- 		<li><a href="./GuiaConciliacaoPublica?PaginaAtual=9" title="Guia Concilia&ccedil;&atilde;o"> Guia Concilia&ccedil;&atilde;o - 1º Grau &nbsp;<i class="fa fa-usd"></i></a></li> -->
+                  <!-- 		<li><a href="./GuiaResolucaoConflitoPublica?PaginaAtual=9" title="Guia de Conciliação/Mediação"> Guia de Conciliação/Mediação - Semana de Conciliação &nbsp;<i class="fa fa-usd"></i></a></li> -->
+                </ul>
+              </li>
+              <li class="has-sub">
+                <a href="#" title="Estatística Pública"
+                  ><span><i class="fa fa-bar-chart"></i></span
+                ></a>
+                <ul>
+                  <li>
+                    <a onclick="buscaEstatistica(1)" href="#">
+                      Quantitativo de Processos &nbsp;<i
+                        class="fa fa-bar-chart"
+                      ></i
+                    ></a>
+                  </li>
+                  <!--<li><a  onclick="buscaEstatistica(2)" href="#" >Quantitativo de Tipos de Processos<i class="fa fa-bar-chart"></i></a></li>-->
+                  <li>
+                    <a onclick="buscaEstatistica(3)" href="#"
+                      >Quantitativo de Serventias &nbsp;<i
+                        class="fa fa-bar-chart"
+                      ></i
+                    ></a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-sub">
+                <a href="#" title="Ajuda"
+                  ><span><i class="fa fa-question-circle"></i></span
+                ></a>
+                <ul>
+                  <li>
+                    <a
+                      href="./videos.html"
+                      title="Vídeos para aprender a trabalhar com o Processo Judicial"
+                      target="_blank"
+                      id="videos"
+                    >
+                      Vídeos &nbsp;<i class="fa fa-question-circle"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="./Pdfvideos.html"
+                      title="PDF dos Vídeos para aprender a trabalhar com o Processo Judicial"
+                      target="_blank"
+                      id="Pdfvideos"
+                    >
+                      Manuais &nbsp;<i class="fa fa-question-circle"></i
+                    ></a>
+                  </li>
+                  <li class="has-sub">
+                    <a href="#" title="Legislação">
+                      Legislação &nbsp;<i class="fa fa-balance-scale"></i
+                    ></a>
+                    <ul>
+                      <!-- Não é para colocar dentro do war, arquivos estaticos use o servidor http://docs.tjgo.jus.br/projudi/pdf/
+            veja com o massa como ter acesso.
+            máquina 10.0.10.27\pubinternet\Sistemas_de_Informacao\legislacao
+           -->
+                      <li>
+                        <a
+                          href="http://www.planalto.gov.br/ccivil_03/_ato2004-2006/2006/lei/l11419.htm"
+                          target="_blank"
+                          title="Lei 11.419"
+                        >
+                          Lei n.º 11.419 de 19/12/2006 &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://docs.tjgo.jus.br/projudi/legislacao/Resolucao0207.pdf"
+                          target="_blank"
+                          title="Resolução nº 02 de 14/03/2007 TJ-GO"
+                        >
+                          Resolução n.º 02 de 14/03/2007 TJ-GO &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://docs.tjgo.jus.br/projudi/legislacao/Resolucao0210.pdf"
+                          target="_blank"
+                          title="Resolução nº 02 de 24/03/2010 TJ-GO"
+                        >
+                          Resolução n.º 02 de 24/03/2010 TJ-GO &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://docs.tjgo.jus.br/projudi/legislacao/Resolução_59_2016_ProcessoDigital.pdf"
+                          target="_blank"
+                          title="Resolução nº 59 de 04/07/2016 TJ-GO"
+                        >
+                          Resolução n.º 59 de 04/07/2016 TJ-GO &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://docs.tjgo.jus.br/projudi/legislacao/Resolução_61_2016.pdf"
+                          target="_blank"
+                          title="Resolução nº 61 de 27/07/2016 TJ-GO"
+                        >
+                          Resolução n.º 61 de 27/07/2016 TJ-GO &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://docs.tjgo.jus.br/projudi/legislacao/portaria_046_2016.pdf"
+                          target="_blank"
+                          title="Portaria nº 46 de 29/11/2016 TJ-GO"
+                        >
+                          Portaria n.º 46 de 29/11/2016 TJ-GO &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="http://docs.tjgo.jus.br/projudi/legislacao/portaria_844_2017.pdf"
+                          target="_blank"
+                          title="Portaria nº 844 de 07/12/2017 TJ-GO"
+                        >
+                          Portaria n.º 844 de 07/12/2017 TJ-GO &nbsp;<i
+                            class="fa fa-balance-scale"
+                          ></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a
+                          href="./decretos.html"
+                          title="Decretos"
+                          target="_blank"
+                          id="Decretos"
+                        >
+                          Decretos &nbsp;<i class="fa fa-balance-scale"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a
+                      href="./ajudaSuporteAdvogado.html"
+                      title="Suporte ao Advogado"
+                      target="_blank"
+                      id="ajd_SuporteAdvogado"
+                    >
+                      Suporte ao Advogado &nbsp;<i class="fa fa-comment"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="http://www.cnj.jus.br/tecnologia-da-informacao/comite-nacional-da-tecnologia-da-informacao-e-comunicacao-do-poder-judiciario/modelo-nacional-de-interoperabilidade"
+                      title="Compatível com o Modelo Nacional de Interoperabilidade do CNJ"
+                      target="_blank"
+                      id="MNI CNJ"
+                    >
+                      MNI CNJ &nbsp;<i class="fa fa-balance-scale"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://projudi.tjgo.jus.br/IntercomunicacaoService?WSDL"
+                      title="Modelo Nacional de Interoperabilidade do TJGO"
+                      target="_blank"
+                      id="MNITJGO"
+                    >
+                      MNI TJGO &nbsp;<i class="fa fa-balance-scale"></i
+                    ></a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-sub">
+                <a href="#" title="Download"><i class="fa fa-download"></i> </a>
+                <ul>
+                  <li>
+                    <a
+                      href="https://docs.tjgo.jus.br/projudi/jar/VisualizadoReciboProjudi.jar"
+                      target="_blank"
+                      title="Programa para visualizar o recibo do Projudi e retirar o arquivo assinado e o conteúdo"
+                      >Leitor de Recibo &nbsp;<i class="fa fa-download"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://docs.tjgo.jus.br/projudi/jar/AssinadorExterno.jar"
+                      target="_blank"
+                      title="Programa para fazer assinatura digital dos arquivos no seu computador e-TCESP"
+                      >(e-TCESP) Assinador Externo &nbsp;<i
+                        class="fa fa-download"
+                      ></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.registradores.org.br/assinador/AssinadorDigital-ARISP-Instalador-1.7.0.exe"
+                      target="_blank"
+                      title="Programa para fazer assinatura digital dos arquivos no seu computador Arisp"
+                      >(Arisp) Assinador Externo (.exe - Windows)&nbsp;<i
+                        class="fa fa-download"
+                      ></i></a
+                    ><a
+                      href="https://www.registradores.org.br/AssinadorDigital/"
+                      target="_blank"
+                      title="Site Registradores"
+                      >Site Registradores</a
+                    >a
+                  </li>
+                  <li>
+                    <a
+                      href="https://docs.tjgo.jus.br/projudi/jar/sai.jar"
+                      target="_blank"
+                      title="Programa para fazer assinatura digital dos arquivos no seu computador"
+                      >(NOVO) Assinador Externo &nbsp;<i
+                        class="fa fa-download"
+                      ></i
+                    ></a>
+                  </li>
+                  <li class="has-sub">
+                    <a href="#" title="Download"
+                      >Mozilla Firefox<i class="fa fa-download"></i>
+                    </a>
+                    <ul>
+                      <li>
+                        <a
+                          href="https://releases.mozilla.org/pub/firefox/releases/50.0.2/linux-i686/pt-BR/firefox-50.0.2.tar.bz2"
+                          target="_blank"
+                          title="Versão para Windows"
+                          >Linux &nbsp;<i class="fa fa-download"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://releases.mozilla.org/pub/firefox/releases/51.0.1/mac/pt-BR/Firefox%2051.0.1.dmg"
+                          target="_blank"
+                          title="Versão para Windows"
+                          >Mac OS X &nbsp;<i class="fa fa-download"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://releases.mozilla.org/pub/firefox/releases/51.0.1/win32/pt-BR/Firefox%20Setup%2051.0.1.exe"
+                          target="_blank"
+                          title="Versão para Windows"
+                          >Windows 32bits &nbsp;<i class="fa fa-download"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a
+                      href="http://www.java.com/pt_BR/download/"
+                      target="_blank"
+                      title="Clique aqui para baixar o JAVA"
+                    >
+                      JAVA - Download &nbsp;<i class="fa fa-download"></i
+                    ></a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="LogOn?PaginaAtual=-200" title="Sair" target="_self"
+                  ><i class="fa fa-sign-out"></i>
+                </a>
+              </li>
+              <script type="text/javascript">
+                function buscaEstatistica(_consulta) {
+                  var reCaptcha = $("#g-recaptcha-response").val();
+                  //window.location = '/EstatisticaPublica?PassoBusca=2&EstatisticaPublicaTipoConsulta='+_consulta+'&g-recaptcha-response='+ reCaptcha;
+                  window.open(
+                    "/EstatisticaPublica?PassoBusca=2&EstatisticaPublicaTipoConsulta=" +
+                      _consulta +
+                      "&g-recaptcha-response=" +
+                      reCaptcha,
+                    "_self"
+                  );
+                }
+              </script>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div
+        style="
+          clear: both;
+          width: 1300px;
+          height: 28px;
+          background-color: #ccc;
+          margin: 0 auto;
+        "
+      ></div>
+      <div id="divCorpo" class="divCorpo">
+        <form
+          action="BuscaProcessoPublica"
+          method="post"
+          name="Formulario"
+          id="Formulario"
+        >
+          <input id="PaginaAtual" name="PaginaAtual" type="hidden" value="2" />
+          <input
+            id="TipoConsulta"
+            name="TipoConsulta"
+            type="hidden"
+            value="null"
+          />
+          <input id="PassoBusca" name="PassoBusca" type="hidden" value="2" />
+          <input
+            id="ServletRedirect"
+            name="ServletRedirect"
+            type="hidden"
+            value="null"
+          />
+          <input
+            id="TituloDaPagina"
+            name="TituloDaPagina"
+            type="hidden"
+            value="Consulta Pública de Processos"
+          />
+
+          <!-- inclua esse arquivo dentro do form que será submetido
+utilese o RecaptchaService para validar do lado do servidor
+-->
+          <script src="https://www.google.com/recaptcha/api.js?render=6Lc9XJQUAAAAALYjdjJnuNNl8u-zCBSVmmFaps7Z"></script>
+          <script>
+            grecaptcha.ready(function () {
+              grecaptcha
+                .execute("6Lc9XJQUAAAAALYjdjJnuNNl8u-zCBSVmmFaps7Z", {
+                  action: "homepage",
+                })
+                .then(function (token) {
+                  $("#g-recaptcha-response").attr("value", token);
+                });
+            });
+          </script>
+          <input
+            id="g-recaptcha-response"
+            type="hidden"
+            name="g-recaptcha-response"
+            value="03AEkXODC18zJOUaOM31zZ2SuK4t2NzfEa-sYSXov3rTVoz1m37N6ejB4w1l95SgjUpgXFuvvvN2t4K6NvZUIFDWJBc8VeKCjkrkycza1zg0FUWJhS3yuN8B02wriFu0MkyBvuNVWB9zAA-TOk8T2V8XAWOsmiphX-dGqobhmStYpqUHeo8-RzKlJqD5Wajvp1ZIAl4nSZGCPpRttk2HC79mF7GBHmxE2QVOh7nRv--y0NxAHAnhZ5-rJav3C7IjGho-aoR65Shx2omHIOojCQvNEWpbk3mO-IDH0f8xQHKMs44tgJSpZVG4dwQM6aLUE5xdMYwy6Igi5j5xzspPVK-1dWo_Ici38zMOdIxwtm13qnBTN1oyoq_2lA-JJkkiv2atcl_nwZEWxwTP6JqhD1fm84T9IV9TxUQrcvieTOEcMdKsoO-vRIAqEBv8nVc-iiJc927NLbagNhH92XzX012sW-etZR46vepUOtnQ74HSAJPkzdVLD_SjFR1botmNVlzQPc0na5JsJpv7Mo0nNt6vozMDPymFXpbA"
+          />
+          <div class="area"><h2>» Consulta Pública de Processos</h2></div>
+          <div id="divLocalizar" class="divLocalizar">
+            <input type="hidden" id="Id_Processo" name="Id_Processo" />
+
+            <div id="divTabela" class="divTabela">
+              <table id="Tabela" class="Tabela">
+                <thead>
+                  <tr class="TituloColuna">
+                    <td width="20%">Número</td>
+                    <td width="70%">Partes</td>
+                    <td width="10%">Distribuição</td>
+                    <td class="colunaMinima">Selecionar</td>
+                  </tr>
+                </thead>
+                <tbody id="tabListaProcesso">
+                  <tr
+                    class="TabelaLinha2"
+                    onclick="false?submete('6707469'):''"
+                  >
+                    <td>5375125-82</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">DRA</div>
+                      </div>
+                    </td>
+                    <td>27/06/2022</td>
+                    <td></td>
+                  </tr>
+
+                  <tr id="segredojus6707469">
+                    <td colspan="5" style="color: #1d4875; text-align: justify">
+                      <div>
+                        Processo em segredo de justiça. Para maiores
+                        informações, comparecer à Serventia
+                        <b> "Aparecida de Goiânia - UPJ das Varas Cíveis" </b>
+                        com o(s) documento(s) que comprove(m) parte no processo.
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="TabelaLinha2" onclick="true?submete('6716065'):''">
+                    <td>5383537-10</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim Sa</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">
+                          Marlene Ferreira De Souza Botelho
+                        </div>
+                      </div>
+                    </td>
+                    <td>29/06/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6716065');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6716478'):''">
+                    <td>5383970-80</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">
+                          Lilian Distribuidora Comercial Ltda - Epp
+                        </div>
+                      </div>
+                    </td>
+                    <td>30/06/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6716478');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6723173'):''">
+                    <td>5390694-3</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Fabiana Santos Silva</div>
+                      </div>
+                    </td>
+                    <td>02/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6723173');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6726623'):''">
+                    <td>5394190-82</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Adriano Valadão</div>
+                      </div>
+                    </td>
+                    <td>05/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6726623');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6727685'):''">
+                    <td>5395244-25</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Igreja Videira Caldas Novas</div>
+                      </div>
+                    </td>
+                    <td>05/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6727685');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6728114'):''">
+                    <td>5395672-23</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim Sa</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Ministerio Publico</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Claro Sa</div>
+                      </div>
+                    </td>
+                    <td>05/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6728114');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6729076'):''">
+                    <td>5396657-89</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Jackeline Alline Alves Lino</div>
+                      </div>
+                    </td>
+                    <td>06/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6729076');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6736664'):''">
+                    <td>5404197-60</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Aparecida De Fátima Campos</div>
+                      </div>
+                    </td>
+                    <td>08/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6736664');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6736196'):''">
+                    <td>5403729-48</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim Sa</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Alice Gonçalves Moreira</div>
+                      </div>
+                    </td>
+                    <td>08/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6736196');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6737566'):''">
+                    <td>5405162-14</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim Sa</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Andre Luiz Borges Pereira</div>
+                      </div>
+                    </td>
+                    <td>10/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6737566');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6742366'):''">
+                    <td>5409969-35</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Priscila Miranda De Sá</div>
+                      </div>
+                    </td>
+                    <td>12/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6742366');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6743218'):''">
+                    <td>5410783-47</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim S/a</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Demóstenes Alves Da Luz</div>
+                      </div>
+                    </td>
+                    <td>13/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6743218');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6746254'):''">
+                    <td>5413796-54</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim Sa</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Daiane Caldeira Jardim</div>
+                      </div>
+                    </td>
+                    <td>13/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6746254');"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr class="TabelaLinha2" onclick="true?submete('6748928'):''">
+                    <td>5416486-56</td>
+                    <td>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Passivo</b></div>
+                        <div class="coluna80">Tim Sa</div>
+                      </div>
+                      <div class="coluna100">
+                        <div class="coluna15"><b>Polo Ativo</b></div>
+                        <div class="coluna80">Roberto Gonçalves Pacheco</div>
+                      </div>
+                    </td>
+                    <td>14/07/2022</td>
+                    <td align="center">
+                      <input
+                        name="formLocalizarimgEditar"
+                        type="image"
+                        src="./imagens/imgEditar.png"
+                        onclick="AlterarValue('PaginaAtual','-1'); AlterarValue('Id_Processo','6748928');"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <script type="text/javascript">
+            function buscaPublica(_posicaoPaginaAtual) {
+              var reCaptcha = $("#g-recaptcha-response").val();
+              window.location =
+                "/BuscaProcessoPublica?PaginaAtual=2&PosicaoPaginaAtual=" +
+                _posicaoPaginaAtual +
+                "&PassoBusca=2&TipoConsulta=null&ServletRedirect=null&g-recaptcha-response=" +
+                reCaptcha;
+            }
+          </script>
+
+          <div id="Paginacao" class="Paginacao">
+            <b>Página </b>
+            <a onclick="buscaPublica(0)" href="#">Primeira</a>
+            <a onclick="buscaPublica(11)" href="#">12</a>
+            <a onclick="buscaPublica(12)" href="#">13</a>
+            <a onclick="buscaPublica(13)" href="#">14</a>
+            <a onclick="buscaPublica(14)" href="#">15</a>
+            <a onclick="buscaPublica(15)" href="#">16</a>
+            <a onclick="buscaPublica(16)" href="#">17</a>
+            <a onclick="buscaPublica(17)" href="#">18</a>
+            <a onclick="buscaPublica(18)" href="#">19</a>
+            <b>| 20 |</b><a onclick="buscaPublica(20)" href="#">21</a>
+            <a onclick="buscaPublica(21)" href="#">22</a>
+            <a onclick="buscaPublica(22)" href="#">23</a>
+            <a onclick="buscaPublica(23)" href="#">24</a>
+            <a onclick="buscaPublica(24)" href="#">25</a>
+            <a onclick="buscaPublica(25)" href="#">26</a>
+            <a onclick="buscaPublica(30)" href="#">Última</a>
+            <input
+              id="PosicaoPagina"
+              name="PosicaoPagina"
+              class="CaixaTextoPosicionar"
+              value="20"
+              type="text"
+              size="5"
+              maxlength="10"
+            />
+            <input
+              class="BotaoIr"
+              type="button"
+              value="Ir"
+              onclick="javascript: submit();"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div>
+      <div
+        class="grecaptcha-badge"
+        data-style="bottomright"
+        style="
+          width: 256px;
+          height: 60px;
+          display: block;
+          transition: right 0.3s ease 0s;
+          position: fixed;
+          bottom: 14px;
+          right: -186px;
+          box-shadow: gray 0px 0px 5px;
+          border-radius: 2px;
+          overflow: hidden;
+        "
+      >
+        <div class="grecaptcha-logo">
+          <iframe
+            title="reCAPTCHA"
+            src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Lc9XJQUAAAAALYjdjJnuNNl8u-zCBSVmmFaps7Z&amp;co=aHR0cHM6Ly9wcm9qdWRpLnRqZ28uanVzLmJyOjQ0Mw..&amp;hl=pt-BR&amp;v=Km9gKuG06He-isPsP6saG8cn&amp;size=invisible&amp;cb=r10tzou50360"
+            width="256"
+            height="60"
+            role="presentation"
+            name="a-ioor69rk3arr"
+            frameborder="0"
+            scrolling="no"
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
+          ></iframe>
+        </div>
+        <div class="grecaptcha-error"></div>
+        <textarea
+          id="g-recaptcha-response-100000"
+          name="g-recaptcha-response"
+          class="g-recaptcha-response"
+          style="
+            width: 250px;
+            height: 40px;
+            border: 1px solid rgb(193, 193, 193);
+            margin: 10px 25px;
+            padding: 0px;
+            resize: none;
+            display: none;
+          "
+        ></textarea>
+      </div>
+      <iframe style="display: none"></iframe>
+    </div>
+    <reclameaqui-extension-pin><section></section></reclameaqui-extension-pin>
+  </body>
+</html>
