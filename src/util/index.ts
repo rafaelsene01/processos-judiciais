@@ -1,7 +1,7 @@
 import Xpath, { SelectedValue } from "xpath";
 import { DOMParser } from "xmldom";
-
 export * from "./apiCall";
+export * from "./helper";
 
 type XpathType = {
   html: string;

@@ -43,7 +43,7 @@ const _processos = async (item, recaptcha, cookie?) => {
 export const tjgo = async (req, res) => {
   try {
     // const recaptcha = await anticaptcha(site, process.env.tjgo_key as string);
-    const { data } = await axios.post("http://localhost:3333/recaptcha", {
+    const { data } = await axios.post("http://localhost:4444/", {
       version: 3,
       site_key: "",
     });

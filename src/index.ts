@@ -24,20 +24,23 @@ app.get("/", (_, res) => {
 
 app.get("/:id", tjgo);
 
+// FIXME: Usar logica abaixo para criar testes....
+
 // import fs from "fs";
 // import path from "path";
 // import { getProcessTJGO } from "@/lawsuit";
-// import { $ } from "@/util";
+// import { $, nextText, findAllText, pole } from "@/util";
+// import { load } from "cheerio";
 // const html = fs.readFileSync(
 //   path.resolve(__dirname, "html/tjgo/list.html"),
 //   "utf8"
 // );
 
 // app.get("/:id", async (_, res) => {
-//   const nodes = $.findOne('//*[@id="divEditar"]/fieldset/legend', html);
-//   // const response = await getProcessTJGO(html);
-//   console.log(nodes);
-//   res.send(nodes.text);
+//   const $$ = load(html);
+//   const processList: any = [];
+
+//   res.send(html);
 // });
 
 const normalizaPort = (val) => {
@@ -51,7 +54,7 @@ const normalizaPort = (val) => {
   return false;
 };
 
-const port = normalizaPort(process.env.PORT || "3334");
+const port = normalizaPort(process.env.PORT || "3333");
 
 app.listen(port, () => {
   console.log(`app listening on http://localhost:${port}/`);

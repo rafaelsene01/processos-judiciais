@@ -1,5 +1,6 @@
 import { Fetch, $ } from "@/util";
 import { QueueTaskPaginacao } from "@/queues";
+import { load } from "cheerio";
 
 export async function workerPaginacao({
   site,
@@ -28,18 +29,22 @@ export async function workerPaginacao({
       params
     );
 
-    const processList: any = [];
+    const $ = load(html || "");
 
-    const nodes = $.xpath('//*[@id="tabListaProcesso"]/tr/@onclick', html);
-    for (let i = 0; i < nodes.length; i++) {
-      const attrs = nodes[i]?.value;
-      if (attrs) {
-        const id_match = attrs.match(/(\d+)/);
-        if (id_match && id_match.length) {
-          processList.push({ id: id_match[0], page: page });
+    const processList: { id: string; page: number }[] = [];
+
+    $("tbody#tabListaProcesso")
+      .find("tr")
+      .toArray()
+      .map((element) => {
+        const onclick = $(element).attr("onclick");
+        if (onclick) {
+          const id_match = onclick.match(/(\d+)/);
+          if (id_match && id_match.length) {
+            processList.push({ id: id_match[0], page });
+          }
         }
-      }
-    }
+      });
 
     return processList;
   } catch (_) {

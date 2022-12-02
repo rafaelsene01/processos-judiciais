@@ -1,8 +1,7 @@
-import { Fetch } from "@/util";
+import { Fetch, findAllText, findElementHTML, getTable, pole } from "@/util";
 import * as cheerio from "cheerio";
-import { $ } from "@/util";
+import { nextText } from "@/util";
 import { QueueTaskProcessos } from "@/queues";
-import { SelectedValue } from "xpath";
 
 export const workerTJGO = async ({
   site,
@@ -41,17 +40,17 @@ export const workerTJGO = async ({
   }
 };
 
-export const getProcessTJGO = async (html) => {
-  let response: any = {};
+export const getProcessTJGO = (html) => {
+  let response = {};
 
-  const $$ = await cheerio.load(html, null, false);
+  const $$ = cheerio.load(html, null, false);
 
   const alerta = $$(".area h2").text().trim();
   if (alerta && /Segredo/.test(alerta)) {
     response = { ...response, restricted: true };
 
-    const numero = $$("#divEditar div span:nth-of-type(1)").text();
-    const area = $$("#divEditar div span:nth-of-type(2)").text();
+    const numero = nextText("Número", "div", $$(".aEsquerda").html());
+    const area = nextText("Área", "div", $$(".aEsquerda").html());
 
     if (numero) {
       response = { ...response, numero };
@@ -88,70 +87,28 @@ export const getProcessTJGO = async (html) => {
     return response;
   }
 
-  const numero = (
-    $.text('//span[@id="span_proc_numero"]', html) as string
-  ).trim();
-  const area = (
-    $.text('//*[@id="VisualizaDados"]/div[2]/span[2]', html) as string
-  ).trim();
-  const ativo: string[] = [];
-  (
-    $.xpath(
-      '//*[@id="VisualizaDados"]/fieldset/span[1][contains(@class, "nomes")]',
-      html
-    ) as SelectedValue[]
-  ).forEach((element: any) => {
-    const text = element?.firstChild?.data?.trim();
-    if (text) ativo.push(text);
-  });
-  const passivo: string[] = [];
-  (
-    $.xpath(
-      '//*[@id="VisualizaDados"]/fieldset/span/span[contains(@class, "nomes")]',
-      html
-    ) as SelectedValue[]
-  ).forEach((element: any) => {
-    const text = element?.firstChild?.data?.trim();
-    if (text) passivo.push(text);
-  });
+  const numero = nextText("Número", "div", $$(".aEsquerda").html());
+  const area = nextText("Área", "div", $$(".aEsquerda").html());
 
-  const valorCausa = (
-    $.text('//*[@id="VisualizaDados"]/span[4]', html) as string
-  ).trim();
-  const valorCondenacao = (
-    $.text('//*[@id="VisualizaDados"]/span[5]', html) as string
-  ).trim();
-  const assunto = (
-    $.text(
-      '//*[@id="VisualizaDados"]/span[3]/table/tbody/tr/td',
-      html
-    ) as string
-  ).trim();
+  const ativo = findAllText("Nome", "div", pole("Polo Ativo", html));
+  const passivo = findAllText("Nome", "div", pole("Polo Passivo", html));
 
-  const movimantecoes: any[] = [];
-  (
-    $.xpath(
-      '//*[@id="tabListaProcesso"]/tr[contains(@class, "TabelaLinha")]',
-      html
-    ) as SelectedValue[]
-  ).forEach((element: any) => {
-    const td: any = $.xpath("//td", element.toString());
-    const span: any = $.xpath("//span", td.toString());
-    const numero = td[0].firstChild?.data?.trim();
-    const text = $.xpath("//text()[2]", td[1].toString()).toString().trim();
-    const movimentacao = span[0].firstChild?.data?.trim();
-    const data = td[2].firstChild?.data?.trim();
-    const usuario = td[3].firstChild?.data?.trim();
+  const outros = findElementHTML(
+    "fieldset.VisualizaDados",
+    "legend",
+    "Outras Informações",
+    html
+  );
 
-    movimantecoes.push({
-      numero,
-      movimentacao: movimentacao
-        ? `${movimentacao}. ${text}`.trim()
-        : text.trim(),
-      data,
-      usuario,
-    });
-  });
+  const valorCausa = nextText("Valor da Causa", "div", outros);
+  const valorCondenacao = nextText("Valor Condenação", "div", outros);
+  const assunto = nextText("Assunto(s)", "div", outros);
+
+  const movimantecoes = getTable(
+    "table tbody tr.filtro-entrada",
+    ["numero", "movimentacao", "data", "usuario"],
+    $$("#abas").html()
+  );
 
   if (numero) {
     response = {
