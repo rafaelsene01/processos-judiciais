@@ -1,14 +1,22 @@
 export const tjgoProcessos = [
   {
-    numero: "5193465-58.2022.8.09.0108",
+    processNumber: "5193465-58.2022.8.09.0108",
     area: "Cível",
-    ativo: ["Dione Clei Pereira Borges"],
-    passivo: ["Telefonica Brasil S/a", "Tim S.a.", "Serasa Sa"],
-    valorCausa: "10.000,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Dione Clei Pereira Borges"],
+    activePassivo: ["Telefonica Brasil S/a", "Tim S.a.", "Serasa Sa"],
+    trialCourt: "Morrinhos - Juizado Especial Cível",
+    processClass:
+      "436 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento do Juizado Especial Cível",
+    subject:
       "10437 - DIREITO CIVIL -> Responsabilidade Civil -> Indenização por Dano Moral -> Direito de Imagem - Lei 10406/02",
-    movimantecoes: [
+    causeValue: "10.000,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "02/04/2022 16:22:22",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "15",
         movimentacao: {
@@ -147,15 +155,23 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5609297-77.2021.8.09.0051",
+    processNumber: "5609297-77.2021.8.09.0051",
     area: "Cível",
-    ativo: ["Tim S.A."],
-    passivo: ["Estado de Goiás"],
-    valorCausa: "10.000,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Tim S.A."],
+    activePassivo: ["Estado de Goiás"],
+    trialCourt: "Goiânia - 4ª Vara da Fazenda Pública Estadual",
+    processClass:
+      "7 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento Comum Cível",
+    subject:
       "6015 - DIREITO TRIBUTÁRIO -> Crédito Tributário -> Alíquota -> Índice da Alíquota -",
-    movimantecoes: [
+    causeValue: "10.000,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "19/11/2021 19:41:52",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "19",
         movimentacao: { title: "Juntada -> Petição", description: "" },
@@ -194,7 +210,10 @@ export const tjgoProcessos = [
       },
       {
         numero: "15",
-        movimentacao: { title: "Decisão -> Outras Decisões", description: "" },
+        movimentacao: {
+          title: "Decisão -> Outras Decisões",
+          description: "",
+        },
         data: "30/03/2022 16:25:36",
         usuario: "Zilmene Gomide da Silva",
       },
@@ -322,18 +341,29 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5582026-93.2021.8.09.0051",
+    processNumber: "5582026-93.2021.8.09.0051",
     area: "Cível",
-    ativo: ["Ricardo Oliveira De Assis"],
-    passivo: ["Tim Sa"],
-    valorCausa: "20.000,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Ricardo Oliveira De Assis"],
+    activePassivo: ["Tim Sa"],
+    trialCourt: "Goiânia - 7º Juizado Especial Cível",
+    processClass:
+      "436 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento do Juizado Especial Cível",
+    subject:
       "10437 - DIREITO CIVIL -> Responsabilidade Civil -> Indenização por Dano Moral -> Direito de Imagem - Lei 10406/02",
-    movimantecoes: [
+    causeValue: "20.000,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "06/11/2021 17:13:47",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "18",
-        movimentacao: { title: "Autos Conclusos", description: "P/ SENTENÇA" },
+        movimentacao: {
+          title: "Autos Conclusos",
+          description: "P/ SENTENÇA",
+        },
         data: "18/10/2022 15:34:17",
         usuario: "FLAVIA GOUVEIA POLASTRI VIEIRA",
       },
@@ -386,7 +416,10 @@ export const tjgoProcessos = [
       },
       {
         numero: "12",
-        movimentacao: { title: "Autos Conclusos", description: "P/ SENTENÇA" },
+        movimentacao: {
+          title: "Autos Conclusos",
+          description: "P/ SENTENÇA",
+        },
         data: "31/05/2022 18:30:44",
         usuario: "Vinicius Melo Viero de Nascimento",
       },
@@ -495,15 +528,23 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5744190-73.2019.8.09.0051",
+    processNumber: "5744190-73.2019.8.09.0051",
     area: "Cível",
-    ativo: ["Maria De Fátima Guimarães Duque"],
-    passivo: ["Tim Sa"],
-    valorCausa: "0,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Maria De Fátima Guimarães Duque"],
+    activePassivo: ["Tim Sa"],
+    trialCourt: "Goiânia - 8º CEJUSC - Pré-processual",
+    processClass:
+      "11875 - PROCEDIMENTOS PRÉ-PROCESSUAIS DE RESOLUÇÃO CONSENSUAL DE CONFLITOS -> Reclamação Pré-processual",
+    subject:
       "10671 - DIREITO PROCESSUAL CIVIL E DO TRABALHO -> Liquidação / Cumprimento / Execução -> Obrigação de Fazer / Não Fazer -",
-    movimantecoes: [
+    causeValue: "0,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "27/12/2019 10:54:12",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "6",
         movimentacao: {
@@ -515,7 +556,10 @@ export const tjgoProcessos = [
       },
       {
         numero: "5",
-        movimentacao: { title: "Autos Conclusos", description: "P/ SENTENÇA" },
+        movimentacao: {
+          title: "Autos Conclusos",
+          description: "P/ SENTENÇA",
+        },
         data: "05/02/2020 15:41:15",
         usuario: "Micheli Souza Correa de Brito",
       },
@@ -557,15 +601,23 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5703855-26.2022.8.09.0174",
+    processNumber: "5703855-26.2022.8.09.0174",
     area: "Cível",
-    ativo: ["David Dener Ribeiro Guimaraes"],
-    passivo: ["Tim Sa"],
-    valorCausa: "40.195,94",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["David Dener Ribeiro Guimaraes"],
+    activePassivo: ["Tim Sa"],
+    trialCourt: "Senador Canedo - 2ª Vara Cível",
+    processClass:
+      "7 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento Comum Cível",
+    subject:
       "6226 - DIREITO DO CONSUMIDOR -> Responsabilidade do Fornecedor -> Indenização por Dano Moral -> Inclusão Indevida em Cadastro de Inadimplentes - Lei 8.078/1990 (C.D.C.)",
-    movimantecoes: [
+    causeValue: "40.195,94",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "17/11/2022 14:12:03",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "5",
         movimentacao: {
@@ -609,17 +661,28 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5717780-93.2022.8.09.0011",
+    processNumber: "5717780-93.2022.8.09.0011",
     area: "Criminal",
-    ativo: ["Polícia Civil Do Estado De Goiás"],
-    passivo: ["Eder Batista De Lima"],
-    valorCausa: "",
-    valorCondenacao: "",
-    assunto: "3435 - DIREITO PENAL -> Crimes contra o Patrimônio -> Receptação",
-    movimantecoes: [
+    activePole: ["Polícia Civil Do Estado De Goiás"],
+    activePassivo: ["Eder Batista De Lima"],
+    trialCourt: "Aparecida de Goiânia - Juizado Especial Criminal",
+    processClass:
+      "278 - PROCESSO CRIMINAL -> Procedimentos Investigatórios -> Termo Circunstanciado",
+    subject: "3435 - DIREITO PENAL -> Crimes contra o Patrimônio -> Receptação",
+    causeValue: "",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "23/11/2022 14:33:30",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "9",
-        movimentacao: { title: "Autos Conclusos", description: "P/ SENTENÇA" },
+        movimentacao: {
+          title: "Autos Conclusos",
+          description: "P/ SENTENÇA",
+        },
         data: "28/11/2022 08:30:18",
         usuario: "DANIEL CUNHA NAVARRO",
       },
@@ -654,13 +717,19 @@ export const tjgoProcessos = [
       },
       {
         numero: "5",
-        movimentacao: { title: "Despacho -> Mero Expediente", description: "" },
+        movimentacao: {
+          title: "Despacho -> Mero Expediente",
+          description: "",
+        },
         data: "23/11/2022 20:04:25",
         usuario: "Liliam Margareth da Silva Ferreira",
       },
       {
         numero: "4",
-        movimentacao: { title: "Autos Conclusos", description: "P/ DESPACHO" },
+        movimentacao: {
+          title: "Autos Conclusos",
+          description: "P/ DESPACHO",
+        },
         data: "23/11/2022 15:14:40",
         usuario: "FERNANDA DE CASTRO SCHAIBLICH",
       },
@@ -692,15 +761,23 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5727284-33.2022.8.09.0041",
+    processNumber: "5727284-33.2022.8.09.0041",
     area: "Cível",
-    ativo: ["Cleuza Jardim Miranda"],
-    passivo: ["Tim Sa"],
-    valorCausa: "10.000,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Cleuza Jardim Miranda"],
+    activePassivo: ["Tim Sa"],
+    trialCourt: "Estrela do Norte - Juizado Especial Cível",
+    processClass:
+      "436 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento do Juizado Especial Cível",
+    subject:
       "12042 - DIREITO DO CONSUMIDOR -> Responsabilidade do Fornecedor -> Indenização por Dano Moral -> Análise de Crédito",
-    movimantecoes: [
+    causeValue: "10.000,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "28/11/2022 17:32:19",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "5",
         movimentacao: { title: "Juntada -> Petição", description: "" },
@@ -745,15 +822,23 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5712397-49.2022.8.09.0007",
+    processNumber: "5712397-49.2022.8.09.0007",
     area: "Cível",
-    ativo: ["Gildo Carlos Pinto Dos Reis"],
-    passivo: ["Tim S/a"],
-    valorCausa: "12.000,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Gildo Carlos Pinto Dos Reis"],
+    activePassivo: ["Tim S/a"],
+    trialCourt: "Anápolis - 2º Juizado Especial Cível",
+    processClass:
+      "436 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento do Juizado Especial Cível",
+    subject:
       "10582 - DIREITO CIVIL -> Obrigações -> Inadimplemento -> Rescisão / Resolução -",
-    movimantecoes: [
+    causeValue: "12.000,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "21/11/2022 17:35:46",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "7",
         movimentacao: {
@@ -818,15 +903,23 @@ export const tjgoProcessos = [
     ],
   },
   {
-    numero: "5675573-56.2022.8.09.0051",
+    processNumber: "5675573-56.2022.8.09.0051",
     area: "Cível",
-    ativo: ["Robson Barros Queiroz"],
-    passivo: ["Tim Sa Parte Citada"],
-    valorCausa: "10.000,00",
-    valorCondenacao: "",
-    assunto:
+    activePole: ["Robson Barros Queiroz"],
+    activePassivo: ["Tim Sa Parte Citada"],
+    trialCourt: "Goiânia - 5º Juizado Especial Cível",
+    processClass:
+      "436 - PROCESSO CÍVEL E DO TRABALHO -> Processo de Conhecimento -> Procedimento de Conhecimento -> Procedimento do Juizado Especial Cível",
+    subject:
       "7626 - DIREITO DO CONSUMIDOR -> Contratos de Consumo -> Telefonia -> Assinatura Básica Mensal - Lei n. 9.472/97 e Lei n. 8.078/90 (C.D.C.)",
-    movimantecoes: [
+    causeValue: "10.000,00",
+    condemnationValue: "",
+    originates: "",
+    proceduralStage: "Conhecimento",
+    distributionDate: "03/11/2022 00:00:00",
+    confidentiality: "Não",
+    status: "Ativo",
+    movements: [
       {
         numero: "14",
         movimentacao: { title: "Juntada -> Petição", description: "petição" },

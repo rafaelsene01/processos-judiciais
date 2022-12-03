@@ -32,7 +32,7 @@ app.get("/:id", tjgo);
 // import { nextText, findAllText, pole } from "@/util";
 // import { load } from "cheerio";
 // const html = fs.readFileSync(
-//   path.resolve(__dirname, "html/tjgo/list.html"),
+//   path.resolve(__dirname, "html/tjgo/processos/1.html"),
 //   "utf8"
 // );
 

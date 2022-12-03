@@ -50,13 +50,13 @@ export const getProcessTJGO = (html) => {
   if (alerta && /Segredo/.test(alerta)) {
     response = { ...response, restricted: true };
 
-    const numero = nextText("Número", "div", $$(".aEsquerda").html());
+    const processNumber = nextText("Número", "div", $$(".aEsquerda").html());
     const area = nextText("Área", "div", $$(".aEsquerda").html());
 
-    if (numero) {
-      response = { ...response, numero };
+    if (processNumber) {
+      response = { ...response, processNumber };
     }
-    if (numero) {
+    if (processNumber) {
       response = { ...response, area };
     }
 
@@ -88,43 +88,57 @@ export const getProcessTJGO = (html) => {
     return response;
   }
 
-  const numero = nextText("Número", "div", $$(".aEsquerda").html());
-  if (numero === "0000000-00.0000.8.09.0000") {
+  const processNumber = nextText("Número", "div", $$(".aEsquerda").html());
+  if (processNumber === "0000000-00.0000.8.09.0000") {
     throw Error("Dados inconsistente");
   }
   const area = nextText("Área", "div", $$(".aEsquerda").html());
 
-  const ativo = findAllText("Nome", "div", pole("Polo Ativo", html));
-  const passivo = findAllText("Nome", "div", pole("Polo Passivo", html));
+  const activePole = findAllText("Nome", "div", pole("Polo Ativo", html));
+  const activePassivo = findAllText("Nome", "div", pole("Polo Passivo", html));
 
-  const outros = findElementHTML(
+  const others = findElementHTML(
     "fieldset.VisualizaDados",
     "legend",
     "Outras Informações",
     html
   );
 
-  const valorCausa = nextText("Valor da Causa", "div", outros);
-  const valorCondenacao = nextText("Valor Condenação", "div", outros);
-  const assunto = nextText("Assunto(s)", "div", outros);
+  const trialCourt = nextText("Serventia", "div", others);
+  const processClass = nextText("Classe", "div", others);
+  const subject = nextText("Assunto(s)", "div", others);
+  const causeValue = nextText("Valor da Causa", "div", others);
+  const condemnationValue = nextText("Valor Condenação", "div", others);
+  const originates = nextText("Processo Originário", "div", others);
+  const proceduralStage = nextText("Fase Processual", "div", others);
+  const distributionDate = nextText("Dt. Distribuição", "div", others);
+  const confidentiality = nextText("Segredo de Justiça", "div", others);
+  const status = nextText("Status", "div", others);
 
-  const movimantecoes = getTable(
+  const movements = getTable(
     "table tbody tr.filtro-entrada",
     ["numero", "movimentacao", "data", "usuario"],
     $$("#abas").html()
   );
 
-  if (numero) {
+  if (processNumber) {
     response = {
       ...response,
-      numero,
+      processNumber,
       area,
-      ativo,
-      passivo,
-      valorCausa,
-      valorCondenacao,
-      assunto,
-      movimantecoes,
+      activePole,
+      activePassivo,
+      trialCourt,
+      processClass,
+      subject,
+      causeValue,
+      condemnationValue,
+      originates,
+      proceduralStage,
+      distributionDate,
+      confidentiality,
+      status,
+      movements,
     };
   }
 
