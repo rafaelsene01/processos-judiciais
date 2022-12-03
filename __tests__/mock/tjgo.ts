@@ -1,4 +1,4 @@
-export const gProcessos = [
+export const tjgoProcessos = [
   {
     numero: "5193465-58.2022.8.09.0108",
     area: "Cível",
