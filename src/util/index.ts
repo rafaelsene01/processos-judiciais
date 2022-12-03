@@ -6,7 +6,7 @@ export const nextText = (text, tag, html) => {
   const element = $(tag)
     .toArray()
     .find((el) => $(el).text().trim() === text);
-  return $(element).next().text().trim();
+  return $(element).next().text().replace("\n", "").replace(/\s+/g, " ").trim();
 };
 
 export const findAllText = (text, tag, html) => {
@@ -16,7 +16,9 @@ export const findAllText = (text, tag, html) => {
     .toArray()
     .forEach((element) => {
       if ($(element).text().trim() === text)
-        values.push($(element).next().text().trim());
+        values.push(
+          $(element).next().text().replace("\n", "").replace(/\s+/g, " ").trim()
+        );
     });
   return values;
 };
@@ -41,7 +43,23 @@ export const getTable = (selector, keys, html) => {
       const td = $(element)
         .find("td")
         .toArray()
-        .map((el) => $(el).text().trim());
+        .map((el, i) => {
+          if (i !== 1)
+            return $(el).text().replace("\n", "").replace(/\s+/g, " ").trim();
+          const title = $(el)
+            .find("span")
+            .text()
+            .replace("\n", "")
+            .replace(/\s+/g, " ")
+            .trim();
+          const description = $(el)
+            .text()
+            .replace("\n", "")
+            .replace(/\s+/g, " ")
+            .replace(title, "")
+            .trim();
+          return { title, description };
+        });
       return td.reduce(
         (item, text, i) => (keys[i] ? { ...item, [keys[i]]: text } : item),
         {}
