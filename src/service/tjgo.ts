@@ -23,6 +23,7 @@ const _paginacao = async (page, recaptcha, cookie?) => {
     console.log("Erro na listagem");
   }
 };
+
 const _processos = async (item, recaptcha, cookie?) => {
   try {
     const data = await queueProcessos.push({
@@ -48,8 +49,7 @@ export const tjgo = async (req, res) => {
       version: 3,
       site_key: "",
     });
-    const recaptcha = data.token.trim();
-
+    const recaptcha = data.token;
     const params = {
       PaginaAtual: "2",
       TituloPagina: "null",

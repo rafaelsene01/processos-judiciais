@@ -1,7 +1,7 @@
 import "./util/module-alias";
 import "dotenv/config";
 import express from "express";
-import { tjgo } from "@/service";
+import { tjgo, pjemg } from "@/service";
 
 const app = express();
 
@@ -22,7 +22,8 @@ app.get("/", (_, res) => {
   res.send("É necessario passar o CPF na rota -> /${CPF}");
 });
 
-app.get("/:id", tjgo);
+app.get("/tjgo/:id", tjgo);
+app.get("/pjemg/:taxId", pjemg);
 
 // FIXME: Usar logica abaixo para criar testes....
 

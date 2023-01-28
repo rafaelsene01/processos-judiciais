@@ -1,1 +1,2 @@
-export * from "./tjgo";
+export { tjgo } from "./tjgo";
+export { pjemg } from "./pjemg";
