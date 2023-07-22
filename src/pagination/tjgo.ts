@@ -6,7 +6,6 @@ export async function workerPaginacao({
   site,
   page,
   recaptcha,
-  cookie,
 }: QueueTaskPaginacao) {
   try {
     const params = {
@@ -22,9 +21,6 @@ export async function workerPaginacao({
       site,
       {
         method: "GET",
-        headers: {
-          Cookie: cookie,
-        },
       },
       params
     );

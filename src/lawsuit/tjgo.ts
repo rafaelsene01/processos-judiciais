@@ -8,7 +8,6 @@ export const workerTJGO = async ({
   id,
   page,
   recaptcha,
-  cookie,
 }: QueueTaskProcessos) => {
   try {
     const params = {
@@ -25,9 +24,6 @@ export const workerTJGO = async ({
       site,
       {
         method: "POST",
-        headers: {
-          Cookie: cookie,
-        },
       },
       params
     );
@@ -50,8 +46,8 @@ export const getProcessTJGO = (html) => {
   if (alerta && /Segredo/.test(alerta)) {
     response = { ...response, restricted: true };
 
-    const processNumber = nextText("Número", "div", $$(".aEsquerda").html());
-    const area = nextText("Área", "div", $$(".aEsquerda").html());
+    const processNumber = nextText("Número", $$(".aEsquerda").html());
+    const area = nextText("Área", $$(".aEsquerda").html());
 
     if (processNumber) {
       response = { ...response, processNumber };
@@ -88,14 +84,14 @@ export const getProcessTJGO = (html) => {
     return response;
   }
 
-  const processNumber = nextText("Número", "div", $$(".aEsquerda").html());
+  const processNumber = nextText("Número", $$(".aEsquerda").html());
   if (processNumber === "0000000-00.0000.8.09.0000") {
     throw Error("Dados inconsistente");
   }
-  const area = nextText("Área", "div", $$(".aEsquerda").html());
+  const area = nextText("Área", $$(".aEsquerda").html());
 
-  const activePole = findAllText("Nome", "div", pole("Polo Ativo", html));
-  const activePassivo = findAllText("Nome", "div", pole("Polo Passivo", html));
+  const activePole = findAllText("Nome", pole("Polo Ativo", html));
+  const activePassivo = findAllText("Nome", pole("Polo Passivo", html));
 
   const others = findElementHTML(
     "fieldset.VisualizaDados",
@@ -104,16 +100,16 @@ export const getProcessTJGO = (html) => {
     html
   );
 
-  const trialCourt = nextText("Serventia", "div", others);
-  const processClass = nextText("Classe", "div", others);
-  const subject = nextText("Assunto(s)", "div", others);
-  const causeValue = nextText("Valor da Causa", "div", others);
-  const condemnationValue = nextText("Valor Condenação", "div", others);
-  const originates = nextText("Processo Originário", "div", others);
-  const proceduralStage = nextText("Fase Processual", "div", others);
-  const distributionDate = nextText("Dt. Distribuição", "div", others);
-  const confidentiality = nextText("Segredo de Justiça", "div", others);
-  const status = nextText("Status", "div", others);
+  const trialCourt = nextText("Serventia", others);
+  const processClass = nextText("Classe", others);
+  const subject = nextText("Assunto(s)", others);
+  const causeValue = nextText("Valor da Causa", others);
+  const condemnationValue = nextText("Valor Condenação", others);
+  const originates = nextText("Processo Originário", others);
+  const proceduralStage = nextText("Fase Processual", others);
+  const distributionDate = nextText("Dt. Distribuição", others);
+  const confidentiality = nextText("Segredo de Justiça", others);
+  const status = nextText("Status", others);
 
   const movements = getTable(
     "table tbody tr.filtro-entrada",

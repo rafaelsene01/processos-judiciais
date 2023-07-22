@@ -7,14 +7,12 @@ export type QueueTaskProcessos = {
   id: string;
   page: number;
   recaptcha: string;
-  cookie: any;
 };
 
 export type QueueTaskPaginacao = {
   page: number;
   site: string;
   recaptcha: string;
-  cookie: any;
 };
 
 const CONCURRENCY = 20;

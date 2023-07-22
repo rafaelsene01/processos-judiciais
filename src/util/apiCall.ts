@@ -1,5 +1,8 @@
-import fetch, { RequestInit } from "node-fetch";
+import nodeFetch, { RequestInit } from "node-fetch";
+import fetchCookie from 'fetch-cookie'
 import { TextDecoder } from "util";
+
+const fetch = fetchCookie(nodeFetch)
 
 export const Fetch = async (url: string, request: RequestInit, params?) => {
   try {

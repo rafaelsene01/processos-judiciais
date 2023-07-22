@@ -1,18 +1,18 @@
 export * from "./apiCall";
 import { load } from "cheerio";
 
-export const nextText = (text, tag, html) => {
+export const nextText = (text, html) => {
   const $ = load(html);
-  const element = $(tag)
+  const element = $('*')
     .toArray()
     .find((el) => $(el).text().trim() === text);
   return $(element).next().text().replace("\n", "").replace(/\s+/g, " ").trim();
 };
 
-export const findAllText = (text, tag, html) => {
+export const findAllText = (text, html) => {
   const $ = load(html);
   const values: string[] = [];
-  $(tag)
+  $('*')
     .toArray()
     .forEach((element) => {
       if ($(element).text().trim() === text)

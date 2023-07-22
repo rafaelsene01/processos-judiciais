@@ -7,33 +7,31 @@ import { load } from "cheerio";
 const site = process.env.tjgo_site as string;
 const processList: any = [];
 
-const _paginacao = async (page, recaptcha, cookie?) => {
+const _paginacao = async (page, recaptcha) => {
   try {
     // Pegando a lista de processos da pagina
     const data = await queuePaginacao.push({
       site,
       recaptcha,
       page,
-      cookie,
     });
 
     // console.log(page)
 
     // Buscar dados de cada processo listado
     data.forEach((item) => {
-      _processos(item, recaptcha, cookie);
+      _processos(item, recaptcha);
     });
   } catch (error) {
     console.log("Erro na listagem");
   }
 };
 
-const _processos = async (item, recaptcha, cookie?) => {
+const _processos = async (item, recaptcha) => {
   try {
     const data = await queueProcessos.push({
       ...item,
       site: process.env.tjgo_site as string,
-      cookie,
       recaptcha,
     });
 
@@ -66,7 +64,7 @@ export const tjgo = async (req, res) => {
       "g-recaptcha-response": recaptcha,
     };
 
-    const { data: html, headers } = await Fetch(
+    const { data: html, } = await Fetch(
       site,
       {
         method: "POST",
@@ -103,7 +101,7 @@ export const tjgo = async (req, res) => {
 
     // Jogar cada pagina para ser processada 
     for (let i = pageNumber; i <= lastPageNumber; i++) {
-      _paginacao(i, recaptcha, headers["set-cookie"]);
+      _paginacao(i, recaptcha);
     }
     // TODO: FIM, PAGINAÇÃO
 
