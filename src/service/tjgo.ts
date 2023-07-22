@@ -9,6 +9,7 @@ const processList: any = [];
 
 const _paginacao = async (page, recaptcha, cookie?) => {
   try {
+    // Pegando a lista de processos da pagina
     const data = await queuePaginacao.push({
       site,
       recaptcha,
@@ -16,6 +17,9 @@ const _paginacao = async (page, recaptcha, cookie?) => {
       cookie,
     });
 
+    // console.log(page)
+
+    // Buscar dados de cada processo listado
     data.forEach((item) => {
       _processos(item, recaptcha, cookie);
     });
@@ -33,6 +37,7 @@ const _processos = async (item, recaptcha, cookie?) => {
       recaptcha,
     });
 
+    // console.log(item.page, data.Id_Processo)
     processList.push(data);
 
     // FIXME: Remover isso depois
@@ -45,11 +50,9 @@ const _processos = async (item, recaptcha, cookie?) => {
 export const tjgo = async (req, res) => {
   try {
     // const recaptcha = await anticaptcha(site, process.env.tjgo_key as string);
-    const { data } = await axios.post("http://localhost:4444/", {
-      version: 3,
-      site_key: "",
-    });
+    const { data } = await axios.get("http://localhost:4444/");
     const recaptcha = data.token;
+
     const params = {
       PaginaAtual: "2",
       TituloPagina: "null",
@@ -87,6 +90,7 @@ export const tjgo = async (req, res) => {
     // TODO: PAGINAÇÃO
     const pageNumber = 0;
     let lastPageNumber = 0;
+    // Pegar quantidade de paginas
     $("#Paginacao")
       .find("a")
       .toArray()
@@ -97,6 +101,7 @@ export const tjgo = async (req, res) => {
         }
       });
 
+    // Jogar cada pagina para ser processada 
     for (let i = pageNumber; i <= lastPageNumber; i++) {
       _paginacao(i, recaptcha, headers["set-cookie"]);
     }

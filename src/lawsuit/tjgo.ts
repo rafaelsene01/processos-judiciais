@@ -33,7 +33,7 @@ export const workerTJGO = async ({
     );
 
     const response = await getProcessTJGO(html);
-    // TODO: Esse page que passo n]ao e necessario para Objeto final
+    // TODO: Esse page que passo nao e necessario para Objeto final
     return { Id_Processo: id, page: page + 1, ...response };
   } catch (_) {
     console.log({ Id_Processo: id, page: page + 1 });
