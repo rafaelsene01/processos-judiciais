@@ -1,4 +1,4 @@
-import { Fetch, $ } from "@/util";
+import { Fetch } from "@/util";
 import { QueueTaskPaginacao } from "@/queues";
 import { load } from "cheerio";
 
