@@ -32,7 +32,7 @@ export const workerTJGO = async ({
     // TODO: Esse page que passo nao e necessario para Objeto final
     return { Id_Processo: id, page: page + 1, ...response };
   } catch (_) {
-    console.log({ Id_Processo: id, page: page + 1 });
+    console.log(`\x1b[31m${JSON.stringify({ Id_Processo: id, page: page + 1 }, null, 4)}\x1b[0m`);
     return { Id_Processo: id, page: page + 1 };
   }
 };

@@ -1,55 +1,55 @@
 import { queueProcessos, queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
-import { Fetch } from "@/util";
-import axios from "axios";
+import { getCaptchaToken, Fetch } from "@/util";
 import { load } from "cheerio";
 
 const site = process.env.tjgo_site as string;
-const processList: any = [];
-
-const _paginacao = async (page, recaptcha) => {
-  try {
-    // Pegando a lista de processos da pagina
-    const data = await queuePaginacao.push({
-      site,
-      recaptcha,
-      page,
-    });
-
-    // console.log(page)
-
-    // Buscar dados de cada processo listado
-    data.forEach((item) => {
-      _processos(item, recaptcha);
-    });
-  } catch (error) {
-    console.log("Erro na listagem");
-  }
-};
-
-const _processos = async (item, recaptcha) => {
-  try {
-    const data = await queueProcessos.push({
-      ...item,
-      site: process.env.tjgo_site as string,
-      recaptcha,
-    });
-
-    // console.log(item.page, data.Id_Processo)
-    processList.push(data);
-
-    // FIXME: Remover isso depois
-    // console.log("Processos: ", processList.length);
-  } catch (error) {
-    console.log("Erro ao processar");
-  }
-};
 
 export const tjgo = async (req, res) => {
   try {
     // const recaptcha = await anticaptcha(site, process.env.tjgo_key as string);
-    const { data } = await axios.get("http://localhost:4444/");
-    const recaptcha = data.token;
+    const recaptcha = await getCaptchaToken()
+
+    const pageList: any = [];
+    const processList: any = [];
+
+    const _paginacao = async (page, recaptcha) => {
+      try {
+        // Pegando a lista de processos da pagina
+        const data = await queuePaginacao.push({
+          site,
+          recaptcha,
+          page,
+        });
+
+        console.log("Pagina: ", page, "Processos: ", data.length)
+
+        // Guardando as paginas
+        data.forEach((item) => {
+          pageList.push(item)
+        });
+      } catch (error) {
+        console.log("Erro na listagem");
+      }
+    };
+
+    const _processos = async (item, recaptcha) => {
+      // item => id/page
+      try {
+        const data = await queueProcessos.push({
+          ...item,
+          site: process.env.tjgo_site as string,
+          recaptcha,
+        });
+
+        processList.push(data);
+
+        // FIXME: Remover isso depois
+        console.log("Processo: ", { id: item.id, page: item.page }, ' | Total: ', processList.length,);
+      } catch (error) {
+        console.log("Erro ao processar");
+      }
+    };
 
     const params = {
       PaginaAtual: "2",
@@ -106,6 +106,11 @@ export const tjgo = async (req, res) => {
     // TODO: FIM, PAGINAÇÃO
 
     await queuePaginacao.drained();
+
+    pageList.forEach((item) => {
+      _processos(item, recaptcha)
+    });
+
     await queueProcessos.drained();
 
     res.status(200).send({ total: processList.length, items: processList });

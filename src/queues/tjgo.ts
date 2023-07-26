@@ -15,7 +15,7 @@ export type QueueTaskPaginacao = {
   recaptcha: string;
 };
 
-const CONCURRENCY = 20;
+const CONCURRENCY = 100;
 
 export const queuePaginacao: queueAsPromised<QueueTaskPaginacao> =
   fastq.promise(workerPaginacao, CONCURRENCY);

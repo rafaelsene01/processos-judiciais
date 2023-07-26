@@ -1,7 +1,7 @@
 import "./util/module-alias";
 import "dotenv/config";
 import express from "express";
-import { tjgo, pjemg } from "@/service";
+import { tjgo } from "@/service";
 
 const app = express();
 
@@ -23,7 +23,6 @@ app.get("/", (_, res) => {
 });
 
 app.get("/tjgo/:id", tjgo);
-app.get("/pjemg/:taxId", pjemg);
 
 // FIXME: Usar logica abaixo para criar testes....
 
