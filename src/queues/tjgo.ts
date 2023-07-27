@@ -1,5 +1,5 @@
 import fastq, { queueAsPromised } from "fastq";
-import { workerTJGO } from "@/lawsuit";
+import { workerHTML, workerTJGO } from "@/lawsuit";
 import { workerPaginacao } from "@/pagination";
 
 export type QueueTaskProcessos = {
@@ -15,10 +15,11 @@ export type QueueTaskPaginacao = {
   recaptcha: string;
 };
 
-const CONCURRENCY = 100;
-
 export const queuePaginacao: queueAsPromised<QueueTaskPaginacao> =
-  fastq.promise(workerPaginacao, CONCURRENCY);
+  fastq.promise(workerPaginacao, 20);
 
 export const queueProcessos: queueAsPromised<QueueTaskProcessos> =
-  fastq.promise(workerTJGO, CONCURRENCY);
+  fastq.promise(workerTJGO, 20);
+
+export const queueProcessosHTML: queueAsPromised =
+  fastq.promise(workerHTML, 1);

@@ -1,7 +1,22 @@
 import { Fetch, findAllText, findElementHTML, getTable, pole } from "@/util";
 import * as cheerio from "cheerio";
 import { nextText } from "@/util";
-import { QueueTaskProcessos } from "@/queues";
+import { QueueTaskProcessos, queueProcessosHTML } from "@/queues";
+import { promises as fs } from "fs"
+
+async function listarArquivosDoDiretorio(diretorio, arquivos?) {
+  if (!arquivos)
+    arquivos = [];
+  const listaDeArquivos = await fs.readdir(diretorio);
+  for (const k in listaDeArquivos) {
+    const stat = await fs.stat(diretorio + '/' + listaDeArquivos[k]);
+    if (stat.isDirectory())
+      await listarArquivosDoDiretorio(diretorio + '/' + listaDeArquivos[k], arquivos);
+    else
+      arquivos.push(diretorio + '/' + listaDeArquivos[k]);
+  }
+  return arquivos;
+}
 
 export const workerTJGO = async ({
   site,
@@ -9,6 +24,7 @@ export const workerTJGO = async ({
   page,
   recaptcha,
 }: QueueTaskProcessos) => {
+  let htmlError
   try {
     const params = {
       PaginaAtual: -1,
@@ -27,11 +43,13 @@ export const workerTJGO = async ({
       },
       params
     );
+    htmlError = html
 
     const response = await getProcessTJGO(html);
     // TODO: Esse page que passo nao e necessario para Objeto final
     return { Id_Processo: id, page: page + 1, ...response };
   } catch (_) {
+    queueProcessosHTML.push({ html: htmlError, dir: './src/html/tjgo/processos' })
     console.log(`\x1b[31m${JSON.stringify({ Id_Processo: id, page: page + 1 }, null, 4)}\x1b[0m`);
     return { Id_Processo: id, page: page + 1 };
   }
@@ -140,3 +158,17 @@ export const getProcessTJGO = (html) => {
 
   return response;
 };
+
+export const workerHTML = async ({
+  dir,
+  html
+}) => {
+  const arquivos = await listarArquivosDoDiretorio(dir);
+  const ultimoProcesso = arquivos.reduce((value, file) => {
+    const splitFile = file.split("/")
+    const fileName = splitFile[splitFile.length - 1].replace(".html", "")
+    if (Number(fileName) > value) return Number(fileName)
+    return value
+  }, 1)
+  await fs.writeFile(`${dir}/${ultimoProcesso + 1}.html`, html)
+}

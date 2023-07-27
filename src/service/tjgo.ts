@@ -113,7 +113,7 @@ export const tjgo = async (req, res) => {
 
     await queueProcessos.drained();
 
-    res.status(200).send({ total: processList.length, items: processList });
+    res.status(200).send({ total: processList.length, error: processList.filter(i => !i.processNumber).length, items: processList });
   } catch (error) {
     res.status(400).send({ message: "Erro ao buscar" });
   }
