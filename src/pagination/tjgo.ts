@@ -1,11 +1,13 @@
 import { Fetch } from "@/util";
 import { QueueTaskPaginacao } from "@/queues";
 import { load } from "cheerio";
+import { Worker } from 'worker_threads'
+import path from "path"
 
 export async function workerPaginacao({
   site,
   page,
-  recaptcha,
+  recaptcha, headers, url
 }: QueueTaskPaginacao) {
   try {
     const params = {
@@ -42,7 +44,14 @@ export async function workerPaginacao({
         }
       });
 
-    return processList;
+    const data: any[] = await new Promise((resolve, reject) => {
+      const worker = new Worker(path.resolve(__dirname, '../worker.ts'), { workerData: { item: processList, recaptcha, headers, url } });
+
+      worker.on('message', resolve);
+    });
+
+
+    return { data };
   } catch (_) {
     return [];
   }

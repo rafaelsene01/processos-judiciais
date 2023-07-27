@@ -1,6 +1,5 @@
 import fetch, { RequestInit } from "node-fetch";
 import { TextDecoder } from "util";
-// import fetchCookie from "fetch-cookie"
 import { CookieJar } from 'tough-cookie';
 const cookieJar = new CookieJar();
 
@@ -52,9 +51,10 @@ export const Fetch = async (url: string, request: RequestInit, params?) => {
         meta[0].replace("charset=", "").replace(/"/g, "")
       );
       const newData = newDecoder.decode(buffer);
-      return { data: newData };
+      return { data: newData, headers: setCookieHeaders, url };
     }
-    return { data };
+
+    return { data, headers: setCookieHeaders, url };
   } catch (error) {
     return { error };
   }

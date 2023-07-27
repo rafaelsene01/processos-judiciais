@@ -1,4 +1,4 @@
-import { queueProcessos, queuePaginacao } from "@/queues";
+import { queuePaginacao } from "@/queues";
 import { anticaptcha, _2Captcha } from "@/captcha";
 import { getCaptchaToken, Fetch } from "@/util";
 import { load } from "cheerio";
@@ -10,44 +10,24 @@ export const tjgo = async (req, res) => {
     // const recaptcha = await anticaptcha(site, process.env.tjgo_key as string);
     const recaptcha = await getCaptchaToken()
 
-    const pageList: any = [];
     const processList: any = [];
 
-    const _paginacao = async (page, recaptcha) => {
+    const _paginacao = async (page, recaptcha, headers, url) => {
       try {
         // Pegando a lista de processos da pagina
-        const data = await queuePaginacao.push({
+        const { data } = await queuePaginacao.push({
           site,
           recaptcha,
-          page,
+          page, headers, url
         });
 
-        console.log("Pagina: ", page, "Processos: ", data.length)
+        console.log(page, data.length)
+        data.forEach(i => {
+          processList.push(i)
+        })
 
-        // Guardando as paginas
-        data.forEach((item) => {
-          pageList.push(item)
-        });
       } catch (error) {
         console.log("Erro na listagem");
-      }
-    };
-
-    const _processos = async (item, recaptcha) => {
-      // item => id/page
-      try {
-        const data = await queueProcessos.push({
-          ...item,
-          site: process.env.tjgo_site as string,
-          recaptcha,
-        });
-
-        processList.push(data);
-
-        // FIXME: Remover isso depois
-        console.log("Processo: ", { id: item.id, page: item.page }, ' | Total: ', processList.length,);
-      } catch (error) {
-        console.log("Erro ao processar");
       }
     };
 
@@ -64,13 +44,15 @@ export const tjgo = async (req, res) => {
       "g-recaptcha-response": recaptcha,
     };
 
-    const { data: html, } = await Fetch(
+    const { data: html, headers, url } = await Fetch(
       site,
       {
         method: "POST",
       },
       params
     );
+
+
     const $ = load(html || "");
 
     // TODO: NÃO FOI ENCONTRADO ITEMS
@@ -101,17 +83,11 @@ export const tjgo = async (req, res) => {
 
     // Jogar cada pagina para ser processada 
     for (let i = pageNumber; i <= lastPageNumber; i++) {
-      _paginacao(i, recaptcha);
+      _paginacao(i, recaptcha, headers, url);
     }
     // TODO: FIM, PAGINAÇÃO
 
     await queuePaginacao.drained();
-
-    pageList.forEach((item) => {
-      _processos(item, recaptcha)
-    });
-
-    await queueProcessos.drained();
 
     res.status(200).send({ total: processList.length, items: processList });
   } catch (error) {
